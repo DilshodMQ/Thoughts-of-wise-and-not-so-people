@@ -1,0 +1,1 @@
+# https-trello.com-b-GCDdaK2E-thoughts-of-wise-and-not-so-people
