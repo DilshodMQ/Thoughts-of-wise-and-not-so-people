@@ -1,0 +1,19 @@
+version: '3.4'
+
+services:
+
+  dsrproject_postgresql:
+    image: postgres:14.1
+    
+  dsrproject_redis:
+    image: redis
+
+  dsrproject.api:
+    image: ${DOCKER_REGISTRY-}dsrprojectapi
+    build:
+      context: .
+      dockerfile: Systems/Api/DsrProject.Api/Dockerfile
+
+    depends_on:
+      - dsrproject_postgresql
+      - dsrproject_redis
