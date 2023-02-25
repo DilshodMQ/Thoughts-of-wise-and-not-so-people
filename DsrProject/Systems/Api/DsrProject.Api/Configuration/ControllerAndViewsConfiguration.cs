@@ -6,8 +6,8 @@ public static class ControllerAndViewsConfiguration
 {
     public static IServiceCollection AddAppControllerAndViews(this IServiceCollection services)
     {
-        services
-            .AddRazorPages();
+        //services
+        //    .AddRazorPages();
 
         services
             .AddControllers()
@@ -19,7 +19,7 @@ public static class ControllerAndViewsConfiguration
 
     public static IEndpointRouteBuilder UseAppControllerAndViews(this IEndpointRouteBuilder app)
     {
-        app.MapRazorPages();
+        //app.MapRazorPages();
         app.MapControllers();
 
         return app;

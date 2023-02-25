@@ -25,6 +25,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsrProject.Settings", "Shar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsrProject.Services.Settings", "Services\DsrProject.Services.Settings\DsrProject.Services.Settings.csproj", "{ABF84EFF-EA11-48C4-BB87-F26391361C74}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B9AAE5E9-2A80-4B89-B7CA-7982A9574B62}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{ABF84EFF-EA11-48C4-BB87-F26391361C74}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ABF84EFF-EA11-48C4-BB87-F26391361C74}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ABF84EFF-EA11-48C4-BB87-F26391361C74}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9AAE5E9-2A80-4B89-B7CA-7982A9574B62}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9AAE5E9-2A80-4B89-B7CA-7982A9574B62}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9AAE5E9-2A80-4B89-B7CA-7982A9574B62}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9AAE5E9-2A80-4B89-B7CA-7982A9574B62}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
