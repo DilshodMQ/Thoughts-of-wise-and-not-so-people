@@ -1,6 +1,8 @@
+using DSRNetSchool.Context;
 using DsrProject.Api;
 using DsrProject.Api.Configuration;
 using DsrProject.Api.Settings;
+using DsrProject.Context;
 using DsrProject.Services.Settings;
 using DsrProject.Settings;
 
@@ -15,6 +17,7 @@ var services=builder.Services;
 
 services.AddHttpContextAccessor();
 services.AddAppCors();
+services.AddAppDbContext(builder.Configuration);
 
 services.AddAppHealthChecks();
 services.AddAppVersioning();
@@ -24,10 +27,14 @@ services.AddAppControllerAndViews();
 
 services.RegisterAppServices(builder);
 
+
 var app = builder.Build();
 
 app.UseAppHealthChecks();
 app.UseAppSwagger();
+
+DbInitializer.Execute(app.Services);
+DbSeeder.Execute(app.Services, true, true);
 
 // Configure the HTTP request pipeline.
 
