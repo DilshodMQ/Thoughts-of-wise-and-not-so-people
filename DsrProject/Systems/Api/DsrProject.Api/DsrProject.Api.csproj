@@ -26,6 +26,11 @@
    
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
    
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+   
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
    
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
@@ -38,6 +43,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Data\DsrProject.Context\DsrProject.Context.csproj" />
+    <ProjectReference Include="..\..\..\Data\Migrations\DsrProject.Context.MigrationsMSSQL\DsrProject.Context.MigrationsMSSQL.csproj" />
+    <ProjectReference Include="..\..\..\Data\Migrations\DsrProject.Context.MigrationsPostgreSQL\DsrProject.Context.MigrationsPostgreSQL.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Settings\DsrProject.Services.Settings.csproj" />
     <ProjectReference Include="..\..\..\Shared\DsrProject.Common\DsrProject.Common.csproj" />
     <ProjectReference Include="..\..\..\Shared\DsrProject.Settings\DsrProject.Settings.csproj" />
