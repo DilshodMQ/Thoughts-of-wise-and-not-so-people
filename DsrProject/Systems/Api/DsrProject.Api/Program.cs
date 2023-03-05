@@ -34,7 +34,7 @@ app.UseAppHealthChecks();
 app.UseAppSwagger();
 
 DbInitializer.Execute(app.Services);
-DbSeeder.Execute(app.Services, true, true);
+
 
 // Configure the HTTP request pipeline.
 

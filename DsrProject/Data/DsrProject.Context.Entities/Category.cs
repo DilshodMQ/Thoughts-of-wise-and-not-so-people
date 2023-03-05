@@ -9,8 +9,9 @@ namespace DsrProject.Context.Entities
 {
     public class Category :BaseEntity
     {
+        public int CategoryId { get; set; }
         public string  Title { get; set; }
 
-        public ICollection<Thought> Thoughts { get; set; }
+        public ICollection<ThoughtCategory> ThoughtCategories { get; set; }
     }
 }

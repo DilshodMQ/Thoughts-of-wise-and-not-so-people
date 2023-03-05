@@ -9,13 +9,9 @@ using System.Threading.Tasks;
 
 namespace DsrProject.Context.Entities.Common
 {
-    [Index("Uid", IsUnique=true)]
     public abstract class BaseEntity
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-
-        [Required]
         public Guid Uid { get; set; } = Guid.NewGuid();
     }
 }

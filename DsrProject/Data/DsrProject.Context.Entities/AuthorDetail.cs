@@ -10,7 +10,6 @@ namespace DsrProject.Context.Entities
 {
     public class AuthorDetail 
     {
-        [Key]
         public int Id { get; set; }
         public virtual Author Author { get; set; }
         public string  Family { get; set; }
