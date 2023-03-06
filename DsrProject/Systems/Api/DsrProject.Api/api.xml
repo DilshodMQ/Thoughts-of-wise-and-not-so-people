@@ -4,6 +4,17 @@
         <name>DsrProject.Api</name>
     </assembly>
     <members>
+        <member name="T:DsrProject.Api.Configuration.AutoMapperConfiguration">
+            <summary>
+            AutoMapper configuration
+            </summary>
+        </member>
+        <member name="M:DsrProject.Api.Configuration.AutoMapperConfiguration.AddAppAutoMappers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            Add automappers
+            </summary>
+            <param name="services">Services collection</param>
+        </member>
         <member name="T:DsrProject.Api.Configuration.CorsConfiguration">
             <summary>
             CORS configuration
@@ -72,6 +83,39 @@
             Get data 2
             </summary>
             <response code="200">String items</response>
+        </member>
+        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Id">
+            <summary>
+            Book Id
+            </summary>
+        </member>
+        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Title">
+            <summary>
+            Book title
+            </summary>
+        </member>
+        <member name="T:DSRNetSchool.API.Controllers.ThoughtsController">
+            <summary>
+            Thoughts controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:DSRNetSchool.API.Controllers.ThoughtsController.GetThoughts(System.Int32,System.Int32)">
+            <summary>
+            Get Thoughts
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of ThoughtResponses</response>
+        </member>
+        <member name="M:DSRNetSchool.API.Controllers.ThoughtsController.GetThoughtById(System.Int32)">
+            <summary>
+            Get thought by Id
+            </summary>
+            <response code="200">ThoughtResponse></response>
         </member>
     </members>
 </doc>

@@ -1,3 +1,4 @@
+
 using DSRNetSchool.Context;
 using DsrProject.Api;
 using DsrProject.Api.Configuration;
@@ -23,6 +24,7 @@ services.AddAppHealthChecks();
 services.AddAppVersioning();
 
 services.AddAppSwagger(mainSettings, swaggerSettings);
+services.AddAppAutoMappers();
 services.AddAppControllerAndViews();
 
 services.RegisterAppServices(builder);
@@ -39,5 +41,7 @@ DbInitializer.Execute(app.Services);
 // Configure the HTTP request pipeline.
 
 app.UseAppControllerAndViews();
+
+app.UseAppMiddlewares();
 
 app.Run();

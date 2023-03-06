@@ -1,11 +1,11 @@
-﻿namespace DSRNetSchool.Context;
-
+﻿
 using DsrProject.Context;
 using DsrProject.Context.Settings;
 using DsrProject.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+namespace DSRNetSchool.Context;
 public static class Bootstrapper
 {
     /// <summary>

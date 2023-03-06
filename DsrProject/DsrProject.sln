@@ -27,15 +27,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsrProject.Services.Setting
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{B9AAE5E9-2A80-4B89-B7CA-7982A9574B62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsrProject.Context", "Data\DsrProject.Context\DsrProject.Context.csproj", "{0D670BFD-C6E2-4CB2-9DEB-DAC7B411797F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsrProject.Context", "Data\DsrProject.Context\DsrProject.Context.csproj", "{0D670BFD-C6E2-4CB2-9DEB-DAC7B411797F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsrProject.Context.Entities", "Data\DsrProject.Context.Entities\DsrProject.Context.Entities.csproj", "{C1B1D7E2-59FD-4F60-880D-1A4B2B8B0B08}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsrProject.Context.Entities", "Data\DsrProject.Context.Entities\DsrProject.Context.Entities.csproj", "{C1B1D7E2-59FD-4F60-880D-1A4B2B8B0B08}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Migrations", "Migrations", "{D90E7797-D66C-423E-A349-843FF88CB338}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsrProject.Context.MigrationsMSSQL", "Data\Migrations\DsrProject.Context.MigrationsMSSQL\DsrProject.Context.MigrationsMSSQL.csproj", "{106DD88E-1E60-48D6-BF10-75722126E319}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsrProject.Context.MigrationsMSSQL", "Data\Migrations\DsrProject.Context.MigrationsMSSQL\DsrProject.Context.MigrationsMSSQL.csproj", "{106DD88E-1E60-48D6-BF10-75722126E319}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DsrProject.Context.MigrationsPostgreSQL", "Data\Migrations\DsrProject.Context.MigrationsPostgreSQL\DsrProject.Context.MigrationsPostgreSQL.csproj", "{DC1C3058-D480-4191-992C-834B6E24F3DA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsrProject.Context.MigrationsPostgreSQL", "Data\Migrations\DsrProject.Context.MigrationsPostgreSQL\DsrProject.Context.MigrationsPostgreSQL.csproj", "{DC1C3058-D480-4191-992C-834B6E24F3DA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DsrProject.Services.Thoughts", "Services\DsrProject.Services.Thoughts\DsrProject.Services.Thoughts.csproj", "{554B35E0-2EC6-480A-BD21-D7730AF39720}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{DC1C3058-D480-4191-992C-834B6E24F3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DC1C3058-D480-4191-992C-834B6E24F3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DC1C3058-D480-4191-992C-834B6E24F3DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{554B35E0-2EC6-480A-BD21-D7730AF39720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{554B35E0-2EC6-480A-BD21-D7730AF39720}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{554B35E0-2EC6-480A-BD21-D7730AF39720}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{554B35E0-2EC6-480A-BD21-D7730AF39720}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -100,6 +106,7 @@ Global
 		{D90E7797-D66C-423E-A349-843FF88CB338} = {67902C51-FE79-4FF4-81D2-8992A48CA849}
 		{106DD88E-1E60-48D6-BF10-75722126E319} = {D90E7797-D66C-423E-A349-843FF88CB338}
 		{DC1C3058-D480-4191-992C-834B6E24F3DA} = {D90E7797-D66C-423E-A349-843FF88CB338}
+		{554B35E0-2EC6-480A-BD21-D7730AF39720} = {F8751A7C-DFC0-41AB-AB85-897330D856F2}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7D0D62B2-4BFA-47E5-80D4-6BA19D61A499}

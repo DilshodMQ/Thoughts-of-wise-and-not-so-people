@@ -2,6 +2,7 @@
 
 using DsrProject.Api.Settings;
 using DsrProject.Services.Settings;
+using DsrProject.Services.Thoughts;
 using Microsoft.Extensions.DependencyInjection;
 
 public static class Bootstrapper
@@ -11,7 +12,8 @@ public static class Bootstrapper
         services
             .AddSwaggerSettings(builder)
             .AddApiSpecialSettings(builder)
-            .AddMainSettings(builder);
+            .AddMainSettings(builder)
+            .AddThouhgtService();
         return services;
     }
     public static  IServiceCollection AddMainSettings(this IServiceCollection services, WebApplicationBuilder  builder)
