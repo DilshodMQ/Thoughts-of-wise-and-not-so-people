@@ -1,6 +1,8 @@
-﻿namespace DsrProject.Api.Settings;
-
-public class ApiSpecialSettings
+﻿namespace DsrProject.Api.Settings
 {
-    public string HelloMessage { get; private set; }
+
+    public class ApiSpecialSettings
+    {
+        public string HelloMessage { get; private set; }
+    }
 }

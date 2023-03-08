@@ -1,55 +1,58 @@
-﻿namespace DsrProject.Common.Exceptions;
+﻿using System;
 
-using System;
-
-/// <summary>
-/// Base exception for transferred error in the work process
-/// </summary>
-public class ProcessException : Exception
+namespace DsrProject.Common.Exceptions
 {
-    /// <summary>
-    ///Error code
-    /// </summary>
-    public string Code { get; }
+
 
     /// <summary>
-    /// Error name
+    /// Base exception for transferred error in the work process
     /// </summary>
-    public string Name { get; }
-
-    #region Constructors
-
-    public ProcessException()
+    public class ProcessException : Exception
     {
-    }
+        /// <summary>
+        ///Error code
+        /// </summary>
+        public string Code { get; }
 
-    public ProcessException(string message) : base(message)
-    {
-    }
+        /// <summary>
+        /// Error name
+        /// </summary>
+        public string Name { get; }
 
-    public ProcessException(Exception inner) : base(inner.Message, inner)
-    {
-    }
+        #region Constructors
 
-    public ProcessException(string message, Exception inner) : base(message, inner)
-    {
-    }
+        public ProcessException()
+        {
+        }
 
-    public ProcessException(string code, string message) : base(message)
-    {
-        Code = code;
-    }
+        public ProcessException(string message) : base(message)
+        {
+        }
 
-    public ProcessException(string code, string message, Exception inner) : base(message, inner)
-    {
-        Code = code;
-    }
+        public ProcessException(Exception inner) : base(inner.Message, inner)
+        {
+        }
 
-    #endregion
+        public ProcessException(string message, Exception inner) : base(message, inner)
+        {
+        }
 
-    public static void ThrowIf(Func<bool> predicate, string message)
-    {
-        if (predicate.Invoke())
-            throw new ProcessException(message);
+        public ProcessException(string code, string message) : base(message)
+        {
+            Code = code;
+        }
+
+        public ProcessException(string code, string message, Exception inner) : base(message, inner)
+        {
+            Code = code;
+        }
+
+        #endregion
+
+        public static void ThrowIf(Func<bool> predicate, string message)
+        {
+            if (predicate.Invoke())
+                throw new ProcessException(message);
+        }
     }
 }

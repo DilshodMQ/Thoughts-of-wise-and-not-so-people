@@ -1,6 +1,4 @@
-﻿namespace DsrProject.Api.Configuration;
-
-using DsrProject.Common;
+﻿using DsrProject.Common;
 using DsrProject.Common.Helpers;
 using DsrProject.Common.Responses;
 using DsrProject.Common.Validator;
@@ -8,47 +6,50 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-public static class ValidatorConfiguration
+namespace DsrProject.Api.Configuration
 {
-    public static IMvcBuilder AddValidator(this IMvcBuilder builder)
+    public static class ValidatorConfiguration
     {
-        builder.ConfigureApiBehaviorOptions(options =>
-         {
-             options.InvalidModelStateResponseFactory = context =>
-             {
-                 var fieldErrors = new List<ErrorResponseFieldInfo>();
-                 foreach (var (field, state) in context.ModelState)
-                 {
-                     if (state.ValidationState == ModelValidationState.Invalid)
-                         fieldErrors.Add(new ErrorResponseFieldInfo()
-                         {
-                             FieldName = field.ToCamelCase(),
-                             Message = string.Join(", ", state.Errors.Select(x => x.ErrorMessage))
-                         });
-                 }
-
-                 var result = new BadRequestObjectResult(new ErrorResponse()
-                 {
-                     ErrorCode = 100,
-                     Message = "One or more validation errors occurred.",
-                     FieldErrors = fieldErrors
-                 });
-
-                 return result;
-             };
-         });
-
-        builder.AddFluentValidation(fv =>
+        public static IMvcBuilder AddValidator(this IMvcBuilder builder)
         {
-            fv.DisableDataAnnotationsValidation = true;
-            fv.ImplicitlyValidateChildProperties = true;
-            fv.AutomaticValidationEnabled = true;
-        });
+            builder.ConfigureApiBehaviorOptions(options =>
+             {
+                 options.InvalidModelStateResponseFactory = context =>
+                 {
+                     var fieldErrors = new List<ErrorResponseFieldInfo>();
+                     foreach (var (field, state) in context.ModelState)
+                     {
+                         if (state.ValidationState == ModelValidationState.Invalid)
+                             fieldErrors.Add(new ErrorResponseFieldInfo()
+                             {
+                                 FieldName = field.ToCamelCase(),
+                                 Message = string.Join(", ", state.Errors.Select(x => x.ErrorMessage))
+                             });
+                     }
 
-        ValidatorsRegisterHelper.Register(builder.Services);
+                     var result = new BadRequestObjectResult(new ErrorResponse()
+                     {
+                         ErrorCode = 100,
+                         Message = "One or more validation errors occurred.",
+                         FieldErrors = fieldErrors
+                     });
 
-        builder.Services.AddSingleton(typeof(IModelValidator<>), typeof(ModelValidator<>));
+                     return result;
+                 };
+             });
 
-        return builder;
+            builder.AddFluentValidation(fv =>
+            {
+                fv.DisableDataAnnotationsValidation = true;
+                fv.ImplicitlyValidateChildProperties = true;
+                fv.AutomaticValidationEnabled = true;
+            });
+
+            ValidatorsRegisterHelper.Register(builder.Services);
+
+            builder.Services.AddSingleton(typeof(IModelValidator<>), typeof(ModelValidator<>));
+
+            return builder;
+        }
     }
 }

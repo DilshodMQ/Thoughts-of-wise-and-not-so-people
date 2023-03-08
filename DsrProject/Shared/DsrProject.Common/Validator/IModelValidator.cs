@@ -1,6 +1,8 @@
-﻿namespace DsrProject.Common.Validator;
-
-public interface IModelValidator<T> where T : class
+﻿namespace DsrProject.Common.Validator
 {
-    void Check(T model);
+
+    public interface IModelValidator<T> where T : class
+    {
+        void Check(T model);
+    }
 }

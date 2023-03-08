@@ -1,19 +1,20 @@
-﻿namespace DSRNetSchool.Context;
-
-using DsrProject.Context;
+﻿using DsrProject.Context;
 using Microsoft.EntityFrameworkCore;
 
-public class DbContextFactory
+namespace DSRNetSchool.Context
 {
-    private readonly DbContextOptions<MainDbContext> options;
-
-    public DbContextFactory(DbContextOptions<MainDbContext> options)
+    public class DbContextFactory
     {
-        this.options = options;
-    }
+        private readonly DbContextOptions<MainDbContext> options;
 
-    public MainDbContext Create()
-    {
-        return new MainDbContext(options);
+        public DbContextFactory(DbContextOptions<MainDbContext> options)
+        {
+            this.options = options;
+        }
+
+        public MainDbContext Create()
+        {
+            return new MainDbContext(options);
+        }
     }
 }

@@ -1,27 +1,29 @@
-﻿namespace DsrProject.Api.Configuration;
+﻿using DsrProject.Common;
 
-using DsrProject.Common;
-
-public static class ControllerAndViewsConfiguration
+namespace DsrProject.Api.Configuration
 {
-    public static IServiceCollection AddAppControllerAndViews(this IServiceCollection services)
+
+    public static class ControllerAndViewsConfiguration
     {
-        //services
-        //    .AddRazorPages();
+        public static IServiceCollection AddAppControllerAndViews(this IServiceCollection services)
+        {
+            //services
+            //    .AddRazorPages();
 
-        services
-            .AddControllers()
-            .AddNewtonsoftJson(options => options.SerializerSettings.SetDefaultSettings())
-            .AddValidator();
+            services
+                .AddControllers()
+                .AddNewtonsoftJson(options => options.SerializerSettings.SetDefaultSettings())
+                .AddValidator();
 
-        return services;
-    }
+            return services;
+        }
 
-    public static IEndpointRouteBuilder UseAppControllerAndViews(this IEndpointRouteBuilder app)
-    {
-        //app.MapRazorPages();
-        app.MapControllers();
+        public static IEndpointRouteBuilder UseAppControllerAndViews(this IEndpointRouteBuilder app)
+        {
+            //app.MapRazorPages();
+            app.MapControllers();
 
-        return app;
+            return app;
+        }
     }
 }

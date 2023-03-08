@@ -1,9 +1,11 @@
-﻿namespace DsrProject.Api.Configuration;
-
-public static class MiddlewaresConfiguration
+﻿namespace DsrProject.Api.Configuration
 {
-    public static void UseAppMiddlewares(this IApplicationBuilder app)
+
+    public static class MiddlewaresConfiguration
     {
-        app.UseMiddleware<ExceptionsMiddleware>();
+        public static void UseAppMiddlewares(this IApplicationBuilder app)
+        {
+            app.UseMiddleware<ExceptionsMiddleware>();
+        }
     }
 }

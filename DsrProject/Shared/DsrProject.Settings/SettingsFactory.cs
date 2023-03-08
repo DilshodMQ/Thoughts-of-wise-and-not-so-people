@@ -1,18 +1,19 @@
-﻿namespace DsrProject.Settings;
+﻿using Microsoft.Extensions.Configuration;
 
-using Microsoft.Extensions.Configuration;
-
-public static class SettingsFactory
+namespace DsrProject.Settings
 {
-    public static IConfiguration Create(IConfiguration? configuration = null)
+    public static class SettingsFactory
     {
-        var conf = configuration ?? new ConfigurationBuilder()
-                                        .SetBasePath(Directory.GetCurrentDirectory())
-                                        .AddJsonFile("appsettings.json", optional: false)
-                                        .AddJsonFile("appsettings.development.json", optional: true)
-                                        .AddEnvironmentVariables()
-                                        .Build();
+        public static IConfiguration Create(IConfiguration? configuration = null)
+        {
+            var conf = configuration ?? new ConfigurationBuilder()
+                                            .SetBasePath(Directory.GetCurrentDirectory())
+                                            .AddJsonFile("appsettings.json", optional: false)
+                                            .AddJsonFile("appsettings.development.json", optional: true)
+                                            .AddEnvironmentVariables()
+                                            .Build();
 
-        return conf;
+            return conf;
+        }
     }
 }

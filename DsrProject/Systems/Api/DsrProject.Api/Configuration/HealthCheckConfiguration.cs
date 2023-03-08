@@ -1,26 +1,27 @@
-﻿namespace DsrProject.Api.Configuration;
-
-using DsrProject.Common;
+﻿using DsrProject.Common;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 
-public static class HealthCheckConfiguration
+namespace DsrProject.Api.Configuration
 {
-    public static IServiceCollection AddAppHealthChecks(this IServiceCollection services)
+    public static class HealthCheckConfiguration
     {
-        services.AddHealthChecks()
-            .AddCheck<SelfHealthCheck>("DSRNetSchool.API");
-
-        return services;
-    }
-
-    public static void UseAppHealthChecks(this WebApplication app)
-    {
-        app.MapHealthChecks("/health");
-
-        app.MapHealthChecks("/health/detail", new HealthCheckOptions
+        public static IServiceCollection AddAppHealthChecks(this IServiceCollection services)
         {
-            ResponseWriter = HealthCheckHelper.WriteHealthCheckResponse,
-            AllowCachingResponses = false,
-        });
+            services.AddHealthChecks()
+                .AddCheck<SelfHealthCheck>("DSRNetSchool.API");
+
+            return services;
+        }
+
+        public static void UseAppHealthChecks(this WebApplication app)
+        {
+            app.MapHealthChecks("/health");
+
+            app.MapHealthChecks("/health/detail", new HealthCheckOptions
+            {
+                ResponseWriter = HealthCheckHelper.WriteHealthCheckResponse,
+                AllowCachingResponses = false,
+            });
+        }
     }
 }

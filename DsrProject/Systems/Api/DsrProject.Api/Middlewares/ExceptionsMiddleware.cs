@@ -1,43 +1,45 @@
+using System.Text.Json;
 using DsrProject.Common.Exceptions;
 using DsrProject.Common.Extensions;
 using DsrProject.Common.Responses;
-using System.Text.Json;
 
-namespace DsrProject.Api.Configuration;
-
-public class ExceptionsMiddleware
+namespace DsrProject.Api.Configuration
 {
-    private readonly RequestDelegate next;
 
-    public ExceptionsMiddleware(RequestDelegate next)
+    public class ExceptionsMiddleware
     {
-        this.next = next;
-    }
+        private readonly RequestDelegate next;
 
-    public async Task InvokeAsync(HttpContext context)
-    {
-        ErrorResponse response = null;
-        try
+        public ExceptionsMiddleware(RequestDelegate next)
         {
-            await next.Invoke(context);
+            this.next = next;
         }
-        catch (ProcessException pe)
+
+        public async Task InvokeAsync(HttpContext context)
         {
-            response = pe.ToErrorResponse();
-        }
-        catch (Exception pe)
-        {
-            response = pe.ToErrorResponse();
-        }
-        finally
-        {
-            if (response is not null)
+            ErrorResponse response = null;
+            try
             {
-                context.Response.StatusCode = StatusCodes.Status400BadRequest;
-                context.Response.ContentType = "application/json";
-                await context.Response.WriteAsync(JsonSerializer.Serialize(response));
-                await context.Response.StartAsync();
-                await context.Response.CompleteAsync();
+                await next.Invoke(context);
+            }
+            catch (ProcessException pe)
+            {
+                response = pe.ToErrorResponse();
+            }
+            catch (Exception pe)
+            {
+                response = pe.ToErrorResponse();
+            }
+            finally
+            {
+                if (response is not null)
+                {
+                    context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                    context.Response.ContentType = "application/json";
+                    await context.Response.WriteAsync(JsonSerializer.Serialize(response));
+                    await context.Response.StartAsync();
+                    await context.Response.CompleteAsync();
+                }
             }
         }
     }

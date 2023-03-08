@@ -1,28 +1,21 @@
-﻿namespace DsrProject.API.Controllers.Models;
-
-using AutoMapper;
+﻿using AutoMapper;
 using DsrProject.Services.Thoughts;
 
-public class ThoughtResponse
+namespace DsrProject.API.Controllers.Models
 {
-    /// <summary>
-    /// Book Id
-    /// </summary>
-    public int Id { get; set; }
-    /// <summary>
-    /// Book title
-    /// </summary>
-    public string Title { get; set; } = string.Empty;
-    public int AuthorId { get; set; }
-    public string Author { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-}
-
-public class ThoughtResponseProfile : Profile
-{
-    public ThoughtResponseProfile()
+    public class ThoughtResponse
     {
-        CreateMap<ThoughtModel, ThoughtResponse>()
-            .ForMember(d => d.Description, a => a.MapFrom(s => s.Note));
+        /// <summary>
+        /// Book Id
+        /// </summary>
+        public int Id { get; set; }
+        /// <summary>
+        /// Book title
+        /// </summary>
+        public string Title { get; set; } = string.Empty;
+        public int AuthorId { get; set; }
+        public string Author { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
     }
+
 }

@@ -1,23 +1,24 @@
-﻿namespace DsrProject.Api.Configuration;
+﻿using Serilog;
 
-using Serilog;
-
-/// <summary>
-/// Logger Configuration
-/// </summary>
-public static class LoggerConfiguration
+namespace DsrProject.Api.Configuration
 {
     /// <summary>
-    /// Add logger
+    /// Logger Configuration
     /// </summary>
-    public static void AddAppLogger(this WebApplicationBuilder builder)
+    public static class LoggerConfiguration
     {
-        var logger = new Serilog.LoggerConfiguration()
-            .Enrich.WithCorrelationIdHeader()
-            .Enrich.FromLogContext()
-            .ReadFrom.Configuration(builder.Configuration)
-            .CreateLogger();
+        /// <summary>
+        /// Add logger
+        /// </summary>
+        public static void AddAppLogger(this WebApplicationBuilder builder)
+        {
+            var logger = new Serilog.LoggerConfiguration()
+                .Enrich.WithCorrelationIdHeader()
+                .Enrich.FromLogContext()
+                .ReadFrom.Configuration(builder.Configuration)
+                .CreateLogger();
 
-        builder.Host.UseSerilog(logger, true);
+            builder.Host.UseSerilog(logger, true);
+        }
     }
 }

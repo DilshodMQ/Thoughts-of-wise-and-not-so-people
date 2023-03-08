@@ -1,8 +1,7 @@
-﻿namespace DsrProject.Services.Thoughts;
+﻿using Microsoft.Extensions.DependencyInjection;
 
-using DsrProject.Services.Thoughts;
-using Microsoft.Extensions.DependencyInjection;
-
+namespace DsrProject.Services.Thoughts
+{ 
 public static class Bootstrapper
 {
     public static IServiceCollection AddThouhgtService(this IServiceCollection services)
@@ -11,4 +10,6 @@ public static class Bootstrapper
 
         return services;
     }
+}
+
 }
