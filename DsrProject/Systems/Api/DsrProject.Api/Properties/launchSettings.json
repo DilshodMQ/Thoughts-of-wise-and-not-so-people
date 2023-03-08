@@ -3,6 +3,7 @@
     "DsrProject.Systems.Api": {
       "commandName": "Project",
       "launchBrowser": true,
+      "launchUrl": "http://localhost:5212/api/index.html",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

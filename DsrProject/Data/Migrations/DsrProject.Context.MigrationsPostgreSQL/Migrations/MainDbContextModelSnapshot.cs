@@ -22,26 +22,13 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CategoryThought", b =>
-                {
-                    b.Property<int>("CategoriesId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ThoughtsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("CategoriesId", "ThoughtsId");
-
-                    b.HasIndex("ThoughtsId");
-
-                    b.ToTable("thoughts_categories", (string)null);
-                });
-
             modelBuilder.Entity("DsrProject.Context.Entities.Author", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -53,9 +40,6 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
-
                     b.HasIndex("Uid")
                         .IsUnique();
 
@@ -65,10 +49,7 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
             modelBuilder.Entity("DsrProject.Context.Entities.AuthorDetail", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Country")
                         .IsRequired()
@@ -80,7 +61,7 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("author_details", (string)null);
+                    b.ToTable("authordetails", (string)null);
                 });
 
             modelBuilder.Entity("DsrProject.Context.Entities.Category", b =>
@@ -90,6 +71,9 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -124,6 +108,9 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("RespondentId")
+                        .HasColumnType("integer");
+
                     b.Property<Guid>("Uid")
                         .HasColumnType("uuid");
 
@@ -150,6 +137,9 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("ThoughtId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -168,45 +158,45 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                     b.ToTable("thoughts", (string)null);
                 });
 
-            modelBuilder.Entity("RespondentThought", b =>
+            modelBuilder.Entity("DsrProject.Context.Entities.ThoughtCategory", b =>
                 {
-                    b.Property<int>("RespondentsId")
+                    b.Property<int>("ThoughtId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ThoughtsId")
+                    b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
-                    b.HasKey("RespondentsId", "ThoughtsId");
+                    b.HasKey("ThoughtId", "CategoryId");
 
-                    b.HasIndex("ThoughtsId");
+                    b.HasIndex("CategoryId");
 
-                    b.ToTable("respondents_categories", (string)null);
+                    b.ToTable("thoughts_categories", (string)null);
                 });
 
-            modelBuilder.Entity("CategoryThought", b =>
+            modelBuilder.Entity("DsrProject.Context.Entities.ThoughtRespondent", b =>
                 {
-                    b.HasOne("DsrProject.Context.Entities.Category", null)
-                        .WithMany()
-                        .HasForeignKey("CategoriesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("ThoughtId")
+                        .HasColumnType("integer");
 
-                    b.HasOne("DsrProject.Context.Entities.Thought", null)
-                        .WithMany()
-                        .HasForeignKey("ThoughtsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Property<int>("RespondentId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ThoughtId", "RespondentId");
+
+                    b.HasIndex("RespondentId");
+
+                    b.ToTable("thoughts_respondents", (string)null);
                 });
 
-            modelBuilder.Entity("DsrProject.Context.Entities.Author", b =>
+            modelBuilder.Entity("DsrProject.Context.Entities.AuthorDetail", b =>
                 {
-                    b.HasOne("DsrProject.Context.Entities.AuthorDetail", "Detail")
-                        .WithOne("Author")
-                        .HasForeignKey("DsrProject.Context.Entities.Author", "Id")
+                    b.HasOne("DsrProject.Context.Entities.Author", "Author")
+                        .WithOne("Detail")
+                        .HasForeignKey("DsrProject.Context.Entities.AuthorDetail", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Detail");
+                    b.Navigation("Author");
                 });
 
             modelBuilder.Entity("DsrProject.Context.Entities.Thought", b =>
@@ -214,36 +204,73 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                     b.HasOne("DsrProject.Context.Entities.Author", "Author")
                         .WithMany("Thoughts")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
                 });
 
-            modelBuilder.Entity("RespondentThought", b =>
+            modelBuilder.Entity("DsrProject.Context.Entities.ThoughtCategory", b =>
                 {
-                    b.HasOne("DsrProject.Context.Entities.Respondent", null)
-                        .WithMany()
-                        .HasForeignKey("RespondentsId")
+                    b.HasOne("DsrProject.Context.Entities.Category", "Category")
+                        .WithMany("ThoughtCategories")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("DsrProject.Context.Entities.Thought", null)
-                        .WithMany()
-                        .HasForeignKey("ThoughtsId")
+                    b.HasOne("DsrProject.Context.Entities.Thought", "Thought")
+                        .WithMany("ThoughtCategories")
+                        .HasForeignKey("ThoughtId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Thought");
+                });
+
+            modelBuilder.Entity("DsrProject.Context.Entities.ThoughtRespondent", b =>
+                {
+                    b.HasOne("DsrProject.Context.Entities.Respondent", "Respondent")
+                        .WithMany("ThoughtRespondents")
+                        .HasForeignKey("RespondentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DsrProject.Context.Entities.Thought", "Thought")
+                        .WithMany("ThoughtRespondents")
+                        .HasForeignKey("ThoughtId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Respondent");
+
+                    b.Navigation("Thought");
                 });
 
             modelBuilder.Entity("DsrProject.Context.Entities.Author", b =>
                 {
+                    b.Navigation("Detail")
+                        .IsRequired();
+
                     b.Navigation("Thoughts");
                 });
 
-            modelBuilder.Entity("DsrProject.Context.Entities.AuthorDetail", b =>
+            modelBuilder.Entity("DsrProject.Context.Entities.Category", b =>
                 {
-                    b.Navigation("Author")
-                        .IsRequired();
+                    b.Navigation("ThoughtCategories");
+                });
+
+            modelBuilder.Entity("DsrProject.Context.Entities.Respondent", b =>
+                {
+                    b.Navigation("ThoughtRespondents");
+                });
+
+            modelBuilder.Entity("DsrProject.Context.Entities.Thought", b =>
+                {
+                    b.Navigation("ThoughtCategories");
+
+                    b.Navigation("ThoughtRespondents");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,14 +1,17 @@
-﻿namespace DsrProject.Services.Settings;
-
-public class SwaggerSettings
+﻿namespace DsrProject.Services.Settings
 {
-    public bool Enabled { get; private set; }
-    
-    public string OAuthClientId { get; private set; }
-    public string OAuthClientSecret { get; private set; }
-    
-    public SwaggerSettings()
+
+
+    public class SwaggerSettings
     {
-        Enabled = false;
+        public bool Enabled { get; private set; }
+
+        public string OAuthClientId { get; private set; }
+        public string OAuthClientSecret { get; private set; }
+
+        public SwaggerSettings()
+        {
+            Enabled = false;
+        }
     }
 }

@@ -1,21 +1,24 @@
-﻿namespace DsrProject.Common;
+﻿using Newtonsoft.Json;
 
-using Newtonsoft.Json;
-
-public class JsonTrimmingConverter : JsonConverter
+namespace DsrProject.Common
 {
-    public override bool CanRead => true;
-    public override bool CanWrite => false;
 
-    public override bool CanConvert(Type objectType) => objectType == typeof(string);
 
-    public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+    public class JsonTrimmingConverter : JsonConverter
     {
-        return ((string)reader.Value)?.Trim();
-    }
+        public override bool CanRead => true;
+        public override bool CanWrite => false;
 
-    public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
-    {
-        throw new NotImplementedException();
+        public override bool CanConvert(Type objectType) => objectType == typeof(string);
+
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        {
+            return ((string)reader.Value)?.Trim();
+        }
+
+        public override void WriteJson(JsonWriter writer, object value, JsonSerializer serializer)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

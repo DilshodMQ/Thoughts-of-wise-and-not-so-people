@@ -1,32 +1,34 @@
-﻿namespace DsrProject.Api.Configuration;
+﻿using Microsoft.AspNetCore.Mvc;
 
-using Microsoft.AspNetCore.Mvc;
-
-/// <summary>
-/// Versioning configuration
-/// </summary>
-public static class VersioningConfiguration
+namespace DsrProject.Api.Configuration
 {
+
     /// <summary>
-    /// Add version support for API
+    /// Versioning configuration
     /// </summary>
-    /// <param name="services">Services collection</param>
-    public static IServiceCollection AddAppVersioning(this IServiceCollection services)
+    public static class VersioningConfiguration
     {
-        services.AddApiVersioning(options =>
+        /// <summary>
+        /// Add version support for API
+        /// </summary>
+        /// <param name="services">Services collection</param>
+        public static IServiceCollection AddAppVersioning(this IServiceCollection services)
         {
-            options.ReportApiVersions = true;
+            services.AddApiVersioning(options =>
+            {
+                options.ReportApiVersions = true;
 
-            options.AssumeDefaultVersionWhenUnspecified = true;
-            options.DefaultApiVersion = new ApiVersion(1, 0);
-        });
+                options.AssumeDefaultVersionWhenUnspecified = true;
+                options.DefaultApiVersion = new ApiVersion(1, 0);
+            });
 
-        services.AddVersionedApiExplorer(options =>
-        {
-            options.GroupNameFormat = "'v'VVV";
-            options.SubstituteApiVersionInUrl = true;
-        });
+            services.AddVersionedApiExplorer(options =>
+            {
+                options.GroupNameFormat = "'v'VVV";
+                options.SubstituteApiVersionInUrl = true;
+            });
 
-        return services;
+            return services;
+        }
     }
 }

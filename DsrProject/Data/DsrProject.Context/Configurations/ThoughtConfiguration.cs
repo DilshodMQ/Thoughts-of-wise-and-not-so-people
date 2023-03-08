@@ -15,9 +15,6 @@ namespace DsrProject.Context.Configurations
         public void Configure(EntityTypeBuilder<Thought> builder)
         {
             builder.ToTable("thoughts");
-            builder.HasKey(o => o.Id);
-            builder.Property(t => t.Id)
-                   .UseIdentityByDefaultColumn();
             builder.HasIndex(t => t.Uid)
                    .IsUnique();
             builder.Property(t => t.Uid)

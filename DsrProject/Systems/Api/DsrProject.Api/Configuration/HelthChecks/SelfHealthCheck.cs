@@ -1,15 +1,16 @@
-﻿namespace DsrProject.Api.Configuration;
-
-using Microsoft.Extensions.Diagnostics.HealthChecks;
+﻿using Microsoft.Extensions.Diagnostics.HealthChecks;
 using System.Reflection;
 
-public class SelfHealthCheck : IHealthCheck
+namespace DsrProject.Api.Configuration
 {
-    public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+    public class SelfHealthCheck : IHealthCheck
     {
-        var assembly = Assembly.Load("DsrProject.API");
-        var versionNumber = assembly.GetName().Version;
+        public Task<HealthCheckResult> CheckHealthAsync(HealthCheckContext context, CancellationToken cancellationToken = default)
+        {
+            var assembly = Assembly.Load("DsrProject.API");
+            var versionNumber = assembly.GetName().Version;
 
-        return Task.FromResult(HealthCheckResult.Healthy(description: $"Build {versionNumber}"));
+            return Task.FromResult(HealthCheckResult.Healthy(description: $"Build {versionNumber}"));
+        }
     }
 }

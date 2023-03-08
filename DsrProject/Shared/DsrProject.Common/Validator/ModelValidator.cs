@@ -1,20 +1,21 @@
-﻿namespace DsrProject.Common.Validator;
+﻿using FluentValidation;
 
-using FluentValidation;
-
-public class ModelValidator<T> : IModelValidator<T> where T : class
+namespace DsrProject.Common.Validator
 {
-    private readonly IValidator<T> validator;
-
-    public ModelValidator(IValidator<T> validator)
+    public class ModelValidator<T> : IModelValidator<T> where T : class
     {
-        this.validator = validator;
-    }
+        private readonly IValidator<T> validator;
 
-    public void Check(T model)
-    {
-        var result = validator.Validate(model);
-        if (!result.IsValid)
-            throw new ValidationException(result.Errors);
+        public ModelValidator(IValidator<T> validator)
+        {
+            this.validator = validator;
+        }
+
+        public void Check(T model)
+        {
+            var result = validator.Validate(model);
+            if (!result.IsValid)
+                throw new ValidationException(result.Errors);
+        }
     }
 }

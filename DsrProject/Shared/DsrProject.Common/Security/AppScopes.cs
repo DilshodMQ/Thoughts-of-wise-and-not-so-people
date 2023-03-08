@@ -1,7 +1,9 @@
-﻿namespace DsrProject.Common.Security;
-
-public static class AppScopes
+﻿namespace DsrProject.Common.Security
 {
-    public const string BooksRead = "books_read";
-    public const string BooksWrite = "books_write";
+
+    public static class AppScopes
+    {
+        public const string BooksRead = "books_read";
+        public const string BooksWrite = "books_write";
+    }
 }

@@ -19,10 +19,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Configuration\" />
-  </ItemGroup>
-
-  <ItemGroup>
+   
+    <PackageReference Include="FluentValidation" Version="11.5.1" />
+   
+    <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
    
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
    
@@ -36,6 +36,10 @@
     <PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
     <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
     <PackageReference Include="Serilog.Expressions" Version="3.4.1" />
+    <PackageReference Include="StyleCop.Analyzers" Version="1.1.118">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
@@ -47,9 +51,18 @@
     <ProjectReference Include="..\..\..\Data\Migrations\DsrProject.Context.MigrationsMSSQL\DsrProject.Context.MigrationsMSSQL.csproj" />
     <ProjectReference Include="..\..\..\Data\Migrations\DsrProject.Context.MigrationsPostgreSQL\DsrProject.Context.MigrationsPostgreSQL.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Settings\DsrProject.Services.Settings.csproj" />
+    <ProjectReference Include="..\..\..\Services\DsrProject.Services.Thoughts\DsrProject.Services.Thoughts.csproj" />
     <ProjectReference Include="..\..\..\Shared\DsrProject.Common\DsrProject.Common.csproj" />
     <ProjectReference Include="..\..\..\Shared\DsrProject.Settings\DsrProject.Settings.csproj" />
     <ProjectReference Include="..\DsrProject.Api.Settings\DsrProject.Api.Settings.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\Users\dilsh\Desktop\MDQ\NAPSTER\Repositories\Thoughts-of-wise-and-not-so-people\DsrProject\Systems\Api\DsrProject.Api\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\Users\dilsh\Desktop\MDQ\NAPSTER\Repositories\Thoughts-of-wise-and-not-so-people\DsrProject\Systems\Api\DsrProject.Api\.editorconfig" />
   </ItemGroup>
 
 </Project>

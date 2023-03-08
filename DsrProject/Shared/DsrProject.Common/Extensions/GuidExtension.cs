@@ -1,11 +1,12 @@
-﻿namespace DsrProject.Common.Extensions;
+﻿using System;
 
-using System;
-
-public static class GuidExtension
+namespace DsrProject.Common.Extensions
 {
-    public static string Shrink(this Guid guid)
+    public static class GuidExtension
     {
-        return guid.ToString().Replace("-", "").Replace(" ", "");
+        public static string Shrink(this Guid guid)
+        {
+            return guid.ToString().Replace("-", "").Replace(" ", "");
+        }
     }
 }

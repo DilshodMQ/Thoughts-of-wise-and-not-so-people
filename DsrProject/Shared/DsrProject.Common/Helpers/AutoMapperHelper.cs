@@ -1,16 +1,17 @@
-﻿namespace DsrProject.Common.Helpers;
-
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-public static class AutoMappersRegisterHelper
+namespace DsrProject.Common.Helpers
 {
-    public static void Register(IServiceCollection services)
+    public static class AutoMappersRegisterHelper
     {
-        var assemblies = AppDomain.CurrentDomain.GetAssemblies()
-            .Where(s => s.FullName != null && s.FullName.ToLower().StartsWith("dsrnetschool."));
+        public static void Register(IServiceCollection services)
+        {
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Where(s => s.FullName != null && s.FullName.ToLower().StartsWith("dsrproject."));
 
-        services.AddAutoMapper(assemblies);
+            services.AddAutoMapper(assemblies);
+        }
     }
 }

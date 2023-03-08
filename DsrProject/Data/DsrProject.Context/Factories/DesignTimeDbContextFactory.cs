@@ -1,52 +1,54 @@
-﻿namespace DsrProject.Context;
-
-using DSRNetSchool.Context;
+﻿using DSRNetSchool.Context;
 using DsrProject.Context.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 
-public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MainDbContext>
+namespace DsrProject.Context
 {
-    private const string migrationProjctPrefix = "DsrProject.Context.Migrations";
 
-    public MainDbContext CreateDbContext(string[] args)
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<MainDbContext>
     {
-        var provider = (args?[0] ?? $"{DbType.MSSQL}").ToLower();
+        private const string migrationProjctPrefix = "DsrProject.Context.Migrations";
 
-        var configuration = new ConfigurationBuilder()
-             .AddJsonFile("appsettings.context.json")
-             .Build();
-
-
-        DbContextOptions<MainDbContext> options;
-        if (provider.Equals($"{DbType.MSSQL}".ToLower()))
+        public MainDbContext CreateDbContext(string[] args)
         {
-            options = new DbContextOptionsBuilder<MainDbContext>()
-                    .UseSqlServer(
-                        configuration.GetConnectionString(provider),
-                        opts => opts
-                            .MigrationsAssembly($"{migrationProjctPrefix}{DbType.MSSQL}")
-                    )
-                    .Options;
-        }
-        else
-        if (provider.Equals($"{DbType.PostgreSQL}".ToLower()))
-        {
-            options = new DbContextOptionsBuilder<MainDbContext>()
-                    .UseNpgsql(
-                        configuration.GetConnectionString(provider),
-                        opts => opts
-                            .MigrationsAssembly($"{migrationProjctPrefix}{DbType.PostgreSQL}")
-                    )
-                    .Options;
-        }
-        else
-        {
-            throw new Exception($"Unsupported provider: {provider}");
-        }
+            var provider = (args?[0] ?? $"{DbType.MSSQL}").ToLower();
 
-        var dbf = new DbContextFactory(options);
-        return dbf.Create();
+            var configuration = new ConfigurationBuilder()
+                 .AddJsonFile("appsettings.context.json")
+                 .Build();
+
+
+            DbContextOptions<MainDbContext> options;
+            if (provider.Equals($"{DbType.MSSQL}".ToLower()))
+            {
+                options = new DbContextOptionsBuilder<MainDbContext>()
+                        .UseSqlServer(
+                            configuration.GetConnectionString(provider),
+                            opts => opts
+                                .MigrationsAssembly($"{migrationProjctPrefix}{DbType.MSSQL}")
+                        )
+                        .Options;
+            }
+            else
+            if (provider.Equals($"{DbType.PostgreSQL}".ToLower()))
+            {
+                options = new DbContextOptionsBuilder<MainDbContext>()
+                        .UseNpgsql(
+                            configuration.GetConnectionString(provider),
+                            opts => opts
+                                .MigrationsAssembly($"{migrationProjctPrefix}{DbType.PostgreSQL}")
+                        )
+                        .Options;
+            }
+            else
+            {
+                throw new Exception($"Unsupported provider: {provider}");
+            }
+
+            var dbf = new DbContextFactory(options);
+            return dbf.Create();
+        }
     }
 }

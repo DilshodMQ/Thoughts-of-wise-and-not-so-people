@@ -1,6 +1,8 @@
-﻿namespace DsrProject.Services.Settings;
-
-public class MainSettings
+﻿namespace DsrProject.Services.Settings
 {
-    public string MainUrl { get; private set; }
+
+    public class MainSettings
+    {
+        public string MainUrl { get; private set; }
+    }
 }
