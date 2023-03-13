@@ -10,9 +10,9 @@ namespace DsrProject.Context.Configurations
         public void Configure(EntityTypeBuilder<Author> builder)
         {
             builder.ToTable("authors");
-            builder.HasKey(o => o.Id);
-            builder.Property(t => t.Id)
-                   .UseIdentityByDefaultColumn();
+            builder.HasKey(a => a.Id);
+            builder.Property(a=>a.Id)
+                .ValueGeneratedOnAdd();
             builder.Property(t => t.Name)
                     .IsRequired()
                     .HasMaxLength(50);
@@ -20,9 +20,9 @@ namespace DsrProject.Context.Configurations
                    .IsUnique();
             builder.Property(t => t.Uid)
                    .IsRequired();
-            builder.HasOne(o => o.Detail)
+            builder.HasOne(a => a.Detail)
                .WithOne(x => x.Author)
-               .HasForeignKey<AuthorDetail>(x => x.Id);
+               .HasForeignKey<AuthorDetail>(x => x.AuthorId);
         }
 
     }

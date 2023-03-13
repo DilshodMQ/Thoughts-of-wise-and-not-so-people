@@ -17,16 +17,14 @@ namespace DsrProject.Context.Configurations
             builder.ToTable("categories");
             builder.HasKey(o => o.Id);
             builder.Property(t => t.Id)
-                   .UseIdentityByDefaultColumn();
+                   .ValueGeneratedOnAdd();
             builder.HasIndex(t => t.Uid)
                    .IsUnique();
             builder.Property(t => t.Uid)
                    .IsRequired();
-
             builder.Property(t => t.Title)
                     .IsRequired()
-                    .HasMaxLength(100);
-           
+                    .HasMaxLength(100);         
         }
     }
 }

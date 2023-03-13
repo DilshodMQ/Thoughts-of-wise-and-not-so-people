@@ -1,11 +1,4 @@
-﻿using DsrProject.Services.Thoughts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DsrProject.Services.Thoughts
+﻿namespace DsrProject.Services.Thoughts
 {
     public interface IThoughtService
     {

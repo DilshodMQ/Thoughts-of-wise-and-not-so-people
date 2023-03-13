@@ -1,9 +1,7 @@
 ﻿using AutoMapper;
 using DsrProject.API.Controllers.Models;
 using DsrProject.Common.Responses;
-using DsrProject.Common.Security;
 using DsrProject.Services.Thoughts;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DSRNetSchool.API.Controllers

@@ -6,16 +6,17 @@ namespace DsrProject.API.Controllers.Models
     public class ThoughtResponse
     {
         /// <summary>
-        /// Book Id
+        /// Comment Id
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// Book title
+        /// Comment content
         /// </summary>
-        public string Title { get; set; } = string.Empty;
-        public int AuthorId { get; set; }
-        public string Author { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
+        public int RespondentId { get; set; }
+        public string Respondent { get; set; } = string.Empty;
+        public int ThoughtId { get; set; }
+        public string Thought{ get; set; } = string.Empty;
     }
 
 }

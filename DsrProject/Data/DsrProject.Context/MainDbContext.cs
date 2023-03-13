@@ -1,11 +1,6 @@
 ﻿using DsrProject.Context.Configurations;
 using DsrProject.Context.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DsrProject.Context
 {
@@ -16,12 +11,10 @@ namespace DsrProject.Context
         public DbSet<AuthorDetail> AuthorDetails { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Respondent> Respondents { get; set; }
-
+        public DbSet<Comment> Comments { get; set; }
         public DbSet<ThoughtCategory> ThoughtCategories { get; set; }
-
         public DbSet<ThoughtRespondent> ThoughtRespondents { get; set; }
         public MainDbContext(DbContextOptions<MainDbContext> options) :base(options) { }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
@@ -32,6 +25,7 @@ namespace DsrProject.Context
             modelBuilder.ApplyConfiguration(new ThoughtCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ThoughtRespondentConfiguration());
             modelBuilder.ApplyConfiguration(new ThoughtConfiguration());
+            modelBuilder.ApplyConfiguration(new CommentConfiguration());
             base.OnModelCreating(modelBuilder);
         }
     }

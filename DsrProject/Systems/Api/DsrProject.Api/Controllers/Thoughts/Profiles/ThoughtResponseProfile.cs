@@ -8,8 +8,7 @@ namespace DsrProject.Api.Controllers.Thoughts.Profiles
     {
         public ThoughtResponseProfile()
         {
-            CreateMap<ThoughtModel, ThoughtResponse>()
-                .ForMember(d => d.Description, a => a.MapFrom(s => s.Note));
+            CreateMap<ThoughtModel, ThoughtResponse>();
         }
     }
 }

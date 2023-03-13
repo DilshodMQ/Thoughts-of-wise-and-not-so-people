@@ -49,6 +49,12 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
             modelBuilder.Entity("DsrProject.Context.Entities.AuthorDetail", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("AuthorId")
                         .HasColumnType("integer");
 
                     b.Property<string>("Country")
@@ -60,6 +66,9 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AuthorId")
+                        .IsUnique();
 
                     b.ToTable("authordetails", (string)null);
                 });
@@ -91,6 +100,45 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                     b.ToTable("categories", (string)null);
                 });
 
+            modelBuilder.Entity("DsrProject.Context.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CommentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CommentId"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("RespondentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ThoughtId")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("Uid")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RespondentId");
+
+                    b.HasIndex("ThoughtId");
+
+                    b.HasIndex("Uid")
+                        .IsUnique();
+
+                    b.ToTable("comments", (string)null);
+                });
+
             modelBuilder.Entity("DsrProject.Context.Entities.Respondent", b =>
                 {
                     b.Property<int>("Id")
@@ -109,7 +157,10 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("RespondentId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RespondentId"));
 
                     b.Property<Guid>("Uid")
                         .HasColumnType("uuid");
@@ -137,9 +188,6 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ThoughtId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(250)
@@ -165,6 +213,12 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.Property<Guid>("Uid")
+                        .HasColumnType("uuid");
 
                     b.HasKey("ThoughtId", "CategoryId");
 
@@ -192,11 +246,28 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                 {
                     b.HasOne("DsrProject.Context.Entities.Author", "Author")
                         .WithOne("Detail")
-                        .HasForeignKey("DsrProject.Context.Entities.AuthorDetail", "Id")
+                        .HasForeignKey("DsrProject.Context.Entities.AuthorDetail", "AuthorId");
+
+                    b.Navigation("Author");
+                });
+
+            modelBuilder.Entity("DsrProject.Context.Entities.Comment", b =>
+                {
+                    b.HasOne("DsrProject.Context.Entities.Respondent", "Respondent")
+                        .WithMany("Comments")
+                        .HasForeignKey("RespondentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Author");
+                    b.HasOne("DsrProject.Context.Entities.Thought", "Thought")
+                        .WithMany("Comments")
+                        .HasForeignKey("ThoughtId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Respondent");
+
+                    b.Navigation("Thought");
                 });
 
             modelBuilder.Entity("DsrProject.Context.Entities.Thought", b =>
@@ -250,8 +321,7 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 
             modelBuilder.Entity("DsrProject.Context.Entities.Author", b =>
                 {
-                    b.Navigation("Detail")
-                        .IsRequired();
+                    b.Navigation("Detail");
 
                     b.Navigation("Thoughts");
                 });
@@ -263,11 +333,15 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 
             modelBuilder.Entity("DsrProject.Context.Entities.Respondent", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("ThoughtRespondents");
                 });
 
             modelBuilder.Entity("DsrProject.Context.Entities.Thought", b =>
                 {
+                    b.Navigation("Comments");
+
                     b.Navigation("ThoughtCategories");
 
                     b.Navigation("ThoughtRespondents");

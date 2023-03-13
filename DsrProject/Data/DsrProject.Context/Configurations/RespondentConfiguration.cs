@@ -1,12 +1,6 @@
 ﻿using DsrProject.Context.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DsrProject.Context.Configurations
 {
@@ -16,8 +10,10 @@ namespace DsrProject.Context.Configurations
         {
             builder.ToTable("respondents");
             builder.HasKey(o => o.Id);
-            builder.Property(t => t.Id)
-                   .UseIdentityByDefaultColumn();
+            builder.Property(o => o.Id)
+                   .ValueGeneratedOnAdd();
+            builder.Property(o => o.RespondentId)
+                   .ValueGeneratedOnAdd();
             builder.HasIndex(t => t.Uid)
                    .IsUnique();
             builder.Property(t => t.Uid)

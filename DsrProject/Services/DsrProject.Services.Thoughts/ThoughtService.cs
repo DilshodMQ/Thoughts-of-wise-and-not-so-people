@@ -32,27 +32,12 @@ namespace DsrProject.Services.Thoughts
 
         public async Task<IEnumerable<ThoughtModel>> GetThoughts(int offset = 0, int limit = 10)
         {
-            //try
-            //{
-            //    var cached_data = await cacheService.Get<IEnumerable<BookModel>>(contextCacheKey);
-            //    if (cached_data != null)
-            //        return cached_data;
-            //}
-            //catch
-            //{
-            //    // Put log message here
-            //}
-
-            //await Task.Delay(5000);
-
-
-
 
             using var context = await contextFactory.CreateDbContextAsync();
 
             var thoughts = context
                 .Thoughts
-                .Include(x => x.Author)
+               // .Include(x => x.Author)
                 .AsQueryable();
 
             thoughts = thoughts
@@ -68,7 +53,7 @@ namespace DsrProject.Services.Thoughts
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
-            var thought = await context.Thoughts.Include(x => x.Author).FirstOrDefaultAsync(x => x.Id.Equals(id));
+            var thought = await context.Thoughts/*.Include(x => x.Author)*/.FirstOrDefaultAsync(x => x.Id.Equals(id));
 
             var data = mapper.Map<ThoughtModel>(thought);
 
@@ -81,6 +66,19 @@ namespace DsrProject.Services.Thoughts
             using var context = await contextFactory.CreateDbContextAsync();
 
             var thought = mapper.Map<Thought>(model);
+
+            // For testing
+            //Author author = new Author();
+            //author.Name = "ASAD";
+            //context.Authors.Add(author);
+
+          
+            //Respondent res = new Respondent();
+            //res.Email = "dfkngdkjg";
+            //res.RespondentId = 1;
+            //res.Name = "ASAD";
+            //context.Respondents.Add(res);
+
             await context.Thoughts.AddAsync(thought);
             context.SaveChanges();
 

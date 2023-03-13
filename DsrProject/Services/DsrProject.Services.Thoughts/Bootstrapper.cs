@@ -2,14 +2,14 @@
 
 namespace DsrProject.Services.Thoughts
 { 
-public static class Bootstrapper
-{
-    public static IServiceCollection AddThouhgtService(this IServiceCollection services)
+    public static class Bootstrapper
     {
+       public static IServiceCollection AddThouhgtService(this IServiceCollection services)
+       {
         services.AddSingleton<IThoughtService, ThoughtService>();
 
         return services;
+       }
     }
-}
 
 }
