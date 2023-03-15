@@ -1,12 +1,6 @@
 ﻿using DsrProject.Context.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection.Emit;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DsrProject.Context.Configurations
 {
@@ -19,11 +13,16 @@ namespace DsrProject.Context.Configurations
                    .IsUnique();
             builder.Property(t => t.Uid)
                    .IsRequired();
+            builder.Property(t => t.Id)
+                   .ValueGeneratedOnAdd();
             builder.Property(x => x.Title)
                    .IsRequired()
                    .HasMaxLength(250);
+            builder.Property(x => x.Description)
+                  .IsRequired();
             builder.HasOne(t => t.Author)
-                   .WithMany(a => a.Thoughts);
+                   .WithMany(a => a.Thoughts)
+                   .HasForeignKey(t => t.AuthorId);
         }
     }
 }

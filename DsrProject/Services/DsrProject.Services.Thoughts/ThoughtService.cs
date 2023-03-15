@@ -3,7 +3,6 @@ using DsrProject.Common.Exceptions;
 using DsrProject.Common.Validator;
 using DsrProject.Context;
 using DsrProject.Context.Entities;
-using DsrProject.Services.Thoughts;
 using Microsoft.EntityFrameworkCore;
 
 namespace DsrProject.Services.Thoughts
@@ -32,21 +31,6 @@ namespace DsrProject.Services.Thoughts
 
         public async Task<IEnumerable<ThoughtModel>> GetThoughts(int offset = 0, int limit = 10)
         {
-            //try
-            //{
-            //    var cached_data = await cacheService.Get<IEnumerable<BookModel>>(contextCacheKey);
-            //    if (cached_data != null)
-            //        return cached_data;
-            //}
-            //catch
-            //{
-            //    // Put log message here
-            //}
-
-            //await Task.Delay(5000);
-
-
-
 
             using var context = await contextFactory.CreateDbContextAsync();
 
@@ -81,11 +65,9 @@ namespace DsrProject.Services.Thoughts
             using var context = await contextFactory.CreateDbContextAsync();
 
             var thought = mapper.Map<Thought>(model);
+
             await context.Thoughts.AddAsync(thought);
             context.SaveChanges();
-
-
-            //await cacheService.Delete(contextCacheKey);
 
             return mapper.Map<ThoughtModel>(thought);
         }

@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace DsrProject.Api.Controllers.Thoughts.Validators
 {
-    public class AddThoughtResponseValidator : AbstractValidator<AddThoughtRequest>
+    public class AddThoughtRequestValidator : AbstractValidator<AddThoughtRequest>
     {
-        public AddThoughtResponseValidator()
+        public AddThoughtRequestValidator()
         {
             RuleFor(x => x.AuthorId)
                 .NotEmpty().WithMessage("Author is required.");

@@ -11,9 +11,10 @@ namespace DsrProject.Context.Entities
     public class AuthorDetail 
     {
         public int Id { get; set; }
-        public virtual Author Author { get; set; }
-        public string  Family { get; set; }
+        public string Family { get; set; }
         public string Country { get; set; }
+        public int? AuthorId { get; set; }
+        public  Author? Author { get; set; }
 
     }
 }

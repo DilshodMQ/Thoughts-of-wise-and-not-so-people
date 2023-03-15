@@ -11,7 +11,6 @@ namespace DsrProject.Context.Entities
     {
         public int CategoryId { get; set; }
         public string  Title { get; set; }
-
         public ICollection<ThoughtCategory> ThoughtCategories { get; set; }
     }
 }

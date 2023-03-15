@@ -1,7 +1,7 @@
 ﻿using DsrProject.Api.Settings;
+using DsrProject.Services.Respondents;
 using DsrProject.Services.Settings;
 using DsrProject.Services.Thoughts;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace DsrProject.Api
 {
@@ -13,7 +13,8 @@ namespace DsrProject.Api
                 .AddSwaggerSettings(builder)
                 .AddApiSpecialSettings(builder)
                 .AddMainSettings(builder)
-                .AddThouhgtService();
+                .AddThouhgtService()
+                .AddRespondentService();
             return services;
         }
         public static IServiceCollection AddMainSettings(this IServiceCollection services, WebApplicationBuilder builder)
