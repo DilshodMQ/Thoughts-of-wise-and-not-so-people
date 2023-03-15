@@ -11,7 +11,7 @@ namespace DsrProject.Api.Controllers.Respondents.Validators
                 .NotEmpty().WithMessage("Respondent is required.");
 
             RuleFor(x => x.Content)
-                .NotEmpty().WithMessage("Title is required.");
+                .NotEmpty().WithMessage("Content is required.");
 
             RuleFor(x => x.ThoughtId)
                .NotEmpty().WithMessage("Thought is required.");

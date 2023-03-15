@@ -2,7 +2,7 @@
 
 namespace DsrProject.Context.Entities
 {
-    public class ThoughtCategory:BaseEntity
+    public class ThoughtCategory : BaseEntity
     {
         public int ThoughtId { get; set; }
         public Thought Thought { get; set; }

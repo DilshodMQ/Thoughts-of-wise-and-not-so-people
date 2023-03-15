@@ -3,7 +3,6 @@ using DsrProject.Common.Exceptions;
 using DsrProject.Common.Validator;
 using DsrProject.Context;
 using DsrProject.Context.Entities;
-using DsrProject.Services.Thoughts;
 using Microsoft.EntityFrameworkCore;
 
 namespace DsrProject.Services.Thoughts
@@ -37,7 +36,7 @@ namespace DsrProject.Services.Thoughts
 
             var thoughts = context
                 .Thoughts
-               // .Include(x => x.Author)
+                .Include(x => x.Author)
                 .AsQueryable();
 
             thoughts = thoughts
@@ -53,7 +52,7 @@ namespace DsrProject.Services.Thoughts
         {
             using var context = await contextFactory.CreateDbContextAsync();
 
-            var thought = await context.Thoughts/*.Include(x => x.Author)*/.FirstOrDefaultAsync(x => x.Id.Equals(id));
+            var thought = await context.Thoughts.Include(x => x.Author).FirstOrDefaultAsync(x => x.Id.Equals(id));
 
             var data = mapper.Map<ThoughtModel>(thought);
 
@@ -67,23 +66,8 @@ namespace DsrProject.Services.Thoughts
 
             var thought = mapper.Map<Thought>(model);
 
-            // For testing
-            //Author author = new Author();
-            //author.Name = "ASAD";
-            //context.Authors.Add(author);
-
-          
-            //Respondent res = new Respondent();
-            //res.Email = "dfkngdkjg";
-            //res.RespondentId = 1;
-            //res.Name = "ASAD";
-            //context.Respondents.Add(res);
-
             await context.Thoughts.AddAsync(thought);
             context.SaveChanges();
-
-
-            //await cacheService.Delete(contextCacheKey);
 
             return mapper.Map<ThoughtModel>(thought);
         }
