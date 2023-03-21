@@ -10,5 +10,7 @@ namespace DsrProject.Services.Respondents
     public interface IRespondentService
     {
         Task<CommentModel> AddComment(AddCommentModel model);
+        Task Subscribe(SubscribeThoughtModel model);
+        Task UnSubscribe(SubscribeThoughtModel model);
     }
 }

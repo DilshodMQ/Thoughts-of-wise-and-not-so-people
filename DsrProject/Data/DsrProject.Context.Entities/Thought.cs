@@ -2,7 +2,7 @@
 
 namespace DsrProject.Context.Entities
 {
-    public class Thought :BaseEntity
+    public class Thought : BaseEntity
     {
         public string Title { get; set; }
         public string Description { get; set; }

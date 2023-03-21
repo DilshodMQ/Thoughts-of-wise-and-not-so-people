@@ -16,23 +16,27 @@ namespace DsrProject.Api.Controllers.Respondents
     /// <response code="404">Not Found</response>
     [ProducesResponseType(typeof(ErrorResponse), 400)]
     [Produces("application/json")]
-    [Route("api/v{version:apiVersion}/respondent")]
+    [Route("api/v{version:apiVersion}/respondents")]
     [ApiController]
     [ApiVersion("1.0")]
-    public class RespondentController : ControllerBase
+    public class RespondentsController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly ILogger<RespondentController> logger;
+        private readonly ILogger<RespondentsController> logger;
         private readonly IRespondentService respondentService;
 
-        public RespondentController(IMapper mapper, ILogger<RespondentController> logger, IRespondentService respondentService)
+        public RespondentsController(IMapper mapper, ILogger<RespondentsController> logger, IRespondentService respondentService)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.respondentService = respondentService;
         }
 
-        [HttpPost("")]
+        /// <summary>
+        /// Add comment
+        /// </summary>
+
+        [HttpPost("AddComment")]
         public async Task<CommentResponse> AddComment([FromBody] AddCommentRequest request)
         {
             var model = mapper.Map<AddCommentModel>(request);
@@ -40,6 +44,30 @@ namespace DsrProject.Api.Controllers.Respondents
             var response = mapper.Map<CommentResponse>(comment);
 
             return response;
+        }
+
+        /// <summary>
+        /// Subscribe to Thought
+        /// </summary>
+
+        [HttpPost("Subscribe")]
+        public async Task<IActionResult> Subscribe([FromBody] SubscribeThoughtRequest request)
+        {
+            var model = mapper.Map<SubscribeThoughtModel>(request);
+            respondentService.Subscribe(model);
+            return Ok();
+        }
+
+        /// <summary>
+        /// UnSubscribe from Thought
+        /// </summary>
+
+        [HttpPost("UnSubscribe")]
+        public async Task<IActionResult> UnSubscribe([FromBody] SubscribeThoughtRequest request)
+        {
+            var model = mapper.Map<SubscribeThoughtModel>(request);
+            respondentService.UnSubscribe(model);
+            return Ok();
         }
     }
 }
