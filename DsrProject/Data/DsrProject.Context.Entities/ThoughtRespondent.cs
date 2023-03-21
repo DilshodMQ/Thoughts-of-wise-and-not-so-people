@@ -1,6 +1,8 @@
-﻿namespace DsrProject.Context.Entities
+﻿using DsrProject.Context.Entities.Common;
+
+namespace DsrProject.Context.Entities
 {
-    public class ThoughtRespondent
+    public class ThoughtRespondent : BaseEntity
     {
         public int ThoughtId { get; set; }
         public Thought Thought { get; set; }

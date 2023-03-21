@@ -57,7 +57,7 @@ namespace DSRNetSchool.API.Controllers
         [HttpGet("{id}")]
         public async Task<ThoughtResponse> GetThoughtById([FromRoute] int id)
         {
-            var thought = await thoughtService.GetThoughts(id);
+            var thought = await thoughtService.GetThought(id);
             var response = mapper.Map<ThoughtResponse>(thought);
 
             return response;

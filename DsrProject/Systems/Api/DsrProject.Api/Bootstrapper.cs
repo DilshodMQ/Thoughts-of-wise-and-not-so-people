@@ -1,4 +1,5 @@
 ﻿using DsrProject.Api.Settings;
+using DsrProject.Services.Categories;
 using DsrProject.Services.Respondents;
 using DsrProject.Services.Settings;
 using DsrProject.Services.Thoughts;
@@ -14,7 +15,8 @@ namespace DsrProject.Api
                 .AddApiSpecialSettings(builder)
                 .AddMainSettings(builder)
                 .AddThouhgtService()
-                .AddRespondentService();
+                .AddRespondentService()
+                .AddCategoryService();
             return services;
         }
         public static IServiceCollection AddMainSettings(this IServiceCollection services, WebApplicationBuilder builder)

@@ -97,12 +97,12 @@
         </member>
         <member name="P:DsrProject.Api.Controllers.Respondents.Models.CommentResponse.Id">
             <summary>
-            Thought Id
+            Comment Id
             </summary>
         </member>
-        <member name="P:DsrProject.Api.Controllers.Respondents.Models.CommentResponse.Title">
+        <member name="P:DsrProject.Api.Controllers.Respondents.Models.CommentResponse.RespondentId">
             <summary>
-            Thought title
+            Author Id
             </summary>
         </member>
         <member name="T:DsrProject.Api.Controllers.Respondents.RespondentsController">
@@ -153,12 +153,22 @@
         </member>
         <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Id">
             <summary>
-            Comment Id
+            Thought Id
             </summary>
         </member>
-        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Content">
+        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Title">
             <summary>
-            Comment content
+            thought content
+            </summary>
+        </member>
+        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Description">
+            <summary>
+            thought description
+            </summary>
+        </member>
+        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.AuthorId">
+            <summary>
+            Author Id
             </summary>
         </member>
         <member name="T:DSRNetSchool.API.Controllers.ThoughtsController">
