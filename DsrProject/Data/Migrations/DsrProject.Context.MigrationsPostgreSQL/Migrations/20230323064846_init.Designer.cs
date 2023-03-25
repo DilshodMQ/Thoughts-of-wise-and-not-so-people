@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20230321064721_Changed_ThoughtRespondent_model")]
-    partial class Changed_ThoughtRespondent_model
+    [Migration("20230323064846_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -224,7 +224,10 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<Guid>("Uid")
                         .HasColumnType("uuid");

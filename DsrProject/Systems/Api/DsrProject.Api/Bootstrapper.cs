@@ -14,6 +14,7 @@ namespace DsrProject.Api
                 .AddSwaggerSettings(builder)
                 .AddApiSpecialSettings(builder)
                 .AddMainSettings(builder)
+                .AddMailSettings(builder)
                 .AddThouhgtService()
                 .AddRespondentService()
                 .AddCategoryService();
@@ -32,6 +33,12 @@ namespace DsrProject.Api
         public static IServiceCollection AddSwaggerSettings(this IServiceCollection services, WebApplicationBuilder builder)
         {
             services.Configure<SwaggerSettings>(builder.Configuration.GetSection("Swagger"));
+            return services;
+        }
+
+        public static IServiceCollection AddMailSettings(this IServiceCollection services, WebApplicationBuilder builder)
+        {
+            services.Configure<MailSettings>(builder.Configuration.GetSection("MailSettings"));
             return services;
         }
     }

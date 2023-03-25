@@ -1,10 +1,16 @@
 ﻿using AutoMapper;
+using AutoMapper.Internal;
 using DsrProject.Common.Exceptions;
 using DsrProject.Common.Validator;
 using DsrProject.Context;
 using DsrProject.Context.Entities;
 using DsrProject.Services.Respondents.Models;
+using DsrProject.Services.Settings;
+using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
+using MimeKit;
+using MimeKit.Text;
 
 namespace DsrProject.Services.Respondents
 {
@@ -37,6 +43,28 @@ namespace DsrProject.Services.Respondents
             context.SaveChanges();
 
             return mapper.Map<CommentModel>(comment);
+        }
+
+        public async Task SendEmail(SubscribeThoughtModel model, MailSettings mailSettings)
+        {
+            using var context = await contextFactory.CreateDbContextAsync();
+            var thought = context.Thoughts.FirstOrDefault(t => t.Id.Equals(model.ThoughtId))
+                ?? throw new ProcessException($"Thought with {model.ThoughtId} has not found");
+
+            var email = new MimeMessage();
+            email.Sender = MailboxAddress.Parse(mailSettings.Mail);
+            email.To.Add(MailboxAddress.Parse(model.RespondentEmail));
+            email.Subject = thought.Title;
+            var builder = new BodyBuilder();
+
+
+            builder.HtmlBody = thought.Description;
+            email.Body = builder.ToMessageBody();
+            using var smtp = new SmtpClient();
+            smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
+            smtp.Authenticate(mailSettings.Mail, mailSettings.Password);
+            await smtp.SendAsync(email);
+            smtp.Disconnect(true);
         }
 
         public async Task Subscribe(SubscribeThoughtModel model)

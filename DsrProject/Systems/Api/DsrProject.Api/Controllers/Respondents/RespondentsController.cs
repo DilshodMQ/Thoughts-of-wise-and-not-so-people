@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using DSRNetSchool.Context;
 using DsrProject.Api.Controllers.Respondents.Models;
 using DsrProject.Common.Responses;
 using DsrProject.Services.Respondents;
 using DsrProject.Services.Respondents.Models;
+using DsrProject.Services.Settings;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace DsrProject.Api.Controllers.Respondents
 {
@@ -24,12 +27,13 @@ namespace DsrProject.Api.Controllers.Respondents
         private readonly IMapper mapper;
         private readonly ILogger<RespondentsController> logger;
         private readonly IRespondentService respondentService;
-
-        public RespondentsController(IMapper mapper, ILogger<RespondentsController> logger, IRespondentService respondentService)
+        private readonly MailSettings mailSettings;
+        public RespondentsController(IMapper mapper, ILogger<RespondentsController> logger, IRespondentService respondentService, IOptions<MailSettings> mailSettings)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.respondentService = respondentService;
+            this.mailSettings = mailSettings.Value;
         }
 
         /// <summary>
@@ -55,6 +59,7 @@ namespace DsrProject.Api.Controllers.Respondents
         {
             var model = mapper.Map<SubscribeThoughtModel>(request);
             respondentService.Subscribe(model);
+            await respondentService.SendEmail(model, mailSettings);
             return Ok();
         }
 

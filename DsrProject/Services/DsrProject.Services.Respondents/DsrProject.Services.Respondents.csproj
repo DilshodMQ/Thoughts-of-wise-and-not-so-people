@@ -7,8 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MailKit" Version="3.6.0" />
+    <PackageReference Include="MimeKit" Version="3.6.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Data\DsrProject.Context\DsrProject.Context.csproj" />
     <ProjectReference Include="..\..\Shared\DsrProject.Common\DsrProject.Common.csproj" />
+    <ProjectReference Include="..\DsrProject.Services.Settings\DsrProject.Services.Settings.csproj" />
   </ItemGroup>
 
 </Project>

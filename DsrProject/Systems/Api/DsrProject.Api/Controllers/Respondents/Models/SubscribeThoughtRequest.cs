@@ -3,7 +3,6 @@
     public class SubscribeThoughtRequest
     {
         public int ThoughtId { get; set; }
-
         public string RespondentEmail { get; set; }
     }
 }

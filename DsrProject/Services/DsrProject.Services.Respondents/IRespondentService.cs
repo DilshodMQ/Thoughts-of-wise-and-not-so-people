@@ -1,9 +1,5 @@
 ﻿using DsrProject.Services.Respondents.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DsrProject.Services.Settings;
 
 namespace DsrProject.Services.Respondents
 {
@@ -12,5 +8,6 @@ namespace DsrProject.Services.Respondents
         Task<CommentModel> AddComment(AddCommentModel model);
         Task Subscribe(SubscribeThoughtModel model);
         Task UnSubscribe(SubscribeThoughtModel model);
+        Task SendEmail(SubscribeThoughtModel model, MailSettings mailSettings);
     }
 }

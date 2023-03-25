@@ -221,7 +221,10 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<Guid>("Uid")
                         .HasColumnType("uuid");
