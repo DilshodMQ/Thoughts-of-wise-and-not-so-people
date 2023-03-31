@@ -14,9 +14,4 @@
 		</PackageReference>
 	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\Shared\DsrProject.Settings\DsrProject.Settings.csproj" />
-    <ProjectReference Include="..\..\Shared\DsrProject.Settings\DsrProject.Settings.csproj" />
-  </ItemGroup>
-
 </Project>

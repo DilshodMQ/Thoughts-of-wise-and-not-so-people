@@ -171,7 +171,7 @@
             Author Id
             </summary>
         </member>
-        <member name="T:DSRNetSchool.API.Controllers.ThoughtsController">
+        <member name="T:DsrProject.API.Controllers.ThoughtsController">
             <summary>
             Thoughts controller
             </summary>
@@ -180,7 +180,7 @@
             <response code="403">Forbidden</response>
             <response code="404">Not Found</response>
         </member>
-        <member name="M:DSRNetSchool.API.Controllers.ThoughtsController.GetThoughts(System.Int32,System.Int32)">
+        <member name="M:DsrProject.API.Controllers.ThoughtsController.GetThoughts(System.Int32,System.Int32)">
             <summary>
             Get Thoughts
             </summary>
@@ -188,7 +188,7 @@
             <param name="limit">Count elements on the page</param>
             <response code="200">List of ThoughtResponses</response>
         </member>
-        <member name="M:DSRNetSchool.API.Controllers.ThoughtsController.GetThoughtById(System.Int32)">
+        <member name="M:DsrProject.API.Controllers.ThoughtsController.GetThoughtById(System.Int32)">
             <summary>
             Get thought by Id
             </summary>

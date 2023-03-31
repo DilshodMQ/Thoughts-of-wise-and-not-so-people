@@ -1,7 +1,7 @@
 ﻿using DsrProject.Context;
 using Microsoft.EntityFrameworkCore;
 
-namespace DSRNetSchool.Context
+namespace DsrProject.Context
 {
     public class DbContextFactory
     {

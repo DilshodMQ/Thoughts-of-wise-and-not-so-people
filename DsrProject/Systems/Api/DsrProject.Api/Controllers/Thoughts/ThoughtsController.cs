@@ -4,7 +4,7 @@ using DsrProject.Common.Responses;
 using DsrProject.Services.Thoughts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DSRNetSchool.API.Controllers
+namespace DsrProject.API.Controllers
 {
 
     /// <summary>

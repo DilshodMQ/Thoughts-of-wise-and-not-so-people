@@ -4,7 +4,7 @@ using DsrProject.Settings;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DSRNetSchool.Context
+namespace DsrProject.Context
 {
     public static class Bootstrapper
     {
@@ -13,7 +13,7 @@ namespace DSRNetSchool.Context
         /// </summary>
         public static IServiceCollection AddAppDbContext(this IServiceCollection services, IConfiguration configuration = null)
         {
-            var settings = Settings.Load<DbSettings>("Database", configuration);
+            var settings = DsrProject.Settings.Settings.Load<DbSettings>("Database", configuration);
             services.AddSingleton(settings);
 
             var dbInitOptionsDelegate = DbContextOptionsFactory.Configure(

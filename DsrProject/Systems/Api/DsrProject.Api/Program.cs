@@ -1,5 +1,4 @@
 
-using DSRNetSchool.Context;
 using DsrProject.Api;
 using DsrProject.Api.Configuration;
 using DsrProject.Context;
