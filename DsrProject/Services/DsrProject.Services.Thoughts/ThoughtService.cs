@@ -26,7 +26,7 @@ namespace DsrProject.Services.Thoughts
             this.contextFactory = contextFactory;
             this.mapper = mapper;
             this.addThoughtModelValidator = addThoughtModelValidator;
-            this.addThoughtModelValidator = addThoughtModelValidator;
+            this.updateThoughtModelValidator = updateThoughtModelValidator;
         }
 
         public async Task<IEnumerable<ThoughtModel>> GetThoughts(int offset = 0, int limit = 10)

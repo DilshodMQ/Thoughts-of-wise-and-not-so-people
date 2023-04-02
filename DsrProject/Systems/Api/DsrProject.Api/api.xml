@@ -72,17 +72,7 @@
             </summary>
             <param name="services">Services collection</param>
         </member>
-        <member name="P:DsrProject.Api.Controllers.Respondents.Models.CommentResponse.Id">
-            <summary>
-            Thought Id
-            </summary>
-        </member>
-        <member name="P:DsrProject.Api.Controllers.Respondents.Models.CommentResponse.Title">
-            <summary>
-            Thought title
-            </summary>
-        </member>
-        <member name="T:DsrProject.Api.Controllers.Respondents.RespondentController">
+        <member name="T:DsrProject.Api.Controllers.Categories.CategoriesController">
             <summary>
             Thoughts controller
             </summary>
@@ -90,6 +80,54 @@
             <response code="401">Unauthorized</response>
             <response code="403">Forbidden</response>
             <response code="404">Not Found</response>
+        </member>
+        <member name="M:DsrProject.Api.Controllers.Categories.CategoriesController.GetCategories(System.Int32,System.Int32)">
+            <summary>
+            Get Categories
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of ThoughtResponses</response>
+        </member>
+        <member name="M:DsrProject.Api.Controllers.Categories.CategoriesController.GetCategoryById(System.Int32)">
+            <summary>
+            Get category by Id
+            </summary>
+            <response code="200">ThoughtResponse></response>
+        </member>
+        <member name="P:DsrProject.Api.Controllers.Respondents.Models.CommentResponse.Id">
+            <summary>
+            Comment Id
+            </summary>
+        </member>
+        <member name="P:DsrProject.Api.Controllers.Respondents.Models.CommentResponse.RespondentId">
+            <summary>
+            Author Id
+            </summary>
+        </member>
+        <member name="T:DsrProject.Api.Controllers.Respondents.RespondentsController">
+            <summary>
+            Thoughts controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:DsrProject.Api.Controllers.Respondents.RespondentsController.AddComment(DsrProject.Api.Controllers.Respondents.Models.AddCommentRequest)">
+            <summary>
+            Add comment
+            </summary>
+        </member>
+        <member name="M:DsrProject.Api.Controllers.Respondents.RespondentsController.Subscribe(DsrProject.Api.Controllers.Respondents.Models.SubscribeThoughtRequest)">
+            <summary>
+            Subscribe to Thought
+            </summary>
+        </member>
+        <member name="M:DsrProject.Api.Controllers.Respondents.RespondentsController.UnSubscribe(DsrProject.Api.Controllers.Respondents.Models.SubscribeThoughtRequest)">
+            <summary>
+            UnSubscribe from Thought
+            </summary>
         </member>
         <member name="M:DsrProject.Api.Controllers.TestController.GetData1">
             <summary>
@@ -103,17 +141,37 @@
             </summary>
             <response code="200">String items</response>
         </member>
-        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Id">
+        <member name="P:DsrProject.API.Controllers.Models.CategoryResponse.Id">
             <summary>
             Comment Id
             </summary>
         </member>
-        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Content">
+        <member name="P:DsrProject.API.Controllers.Models.CategoryResponse.Title">
             <summary>
             Comment content
             </summary>
         </member>
-        <member name="T:DSRNetSchool.API.Controllers.ThoughtsController">
+        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Id">
+            <summary>
+            Thought Id
+            </summary>
+        </member>
+        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Title">
+            <summary>
+            thought content
+            </summary>
+        </member>
+        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.Description">
+            <summary>
+            thought description
+            </summary>
+        </member>
+        <member name="P:DsrProject.API.Controllers.Models.ThoughtResponse.AuthorId">
+            <summary>
+            Author Id
+            </summary>
+        </member>
+        <member name="T:DsrProject.API.Controllers.ThoughtsController">
             <summary>
             Thoughts controller
             </summary>
@@ -122,7 +180,7 @@
             <response code="403">Forbidden</response>
             <response code="404">Not Found</response>
         </member>
-        <member name="M:DSRNetSchool.API.Controllers.ThoughtsController.GetThoughts(System.Int32,System.Int32)">
+        <member name="M:DsrProject.API.Controllers.ThoughtsController.GetThoughts(System.Int32,System.Int32)">
             <summary>
             Get Thoughts
             </summary>
@@ -130,7 +188,7 @@
             <param name="limit">Count elements on the page</param>
             <response code="200">List of ThoughtResponses</response>
         </member>
-        <member name="M:DSRNetSchool.API.Controllers.ThoughtsController.GetThoughtById(System.Int32)">
+        <member name="M:DsrProject.API.Controllers.ThoughtsController.GetThoughtById(System.Int32)">
             <summary>
             Get thought by Id
             </summary>

@@ -4,7 +4,6 @@ namespace DsrProject.Context.Entities
 {
     public class Respondent : BaseEntity
     {
-        public int RespondentId { get; set; }
         public string Name { get; set; }
         public string Email { get; set; }
         public ICollection<ThoughtRespondent>? ThoughtRespondents { get; set; }

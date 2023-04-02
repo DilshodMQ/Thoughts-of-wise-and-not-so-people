@@ -1,8 +1,6 @@
 
-using DSRNetSchool.Context;
 using DsrProject.Api;
 using DsrProject.Api.Configuration;
-using DsrProject.Api.Settings;
 using DsrProject.Context;
 using DsrProject.Services.Settings;
 using DsrProject.Settings;

@@ -12,8 +12,6 @@ namespace DsrProject.Context.Configurations
             builder.HasKey(o => o.Id);
             builder.Property(o => o.Id)
                    .ValueGeneratedOnAdd();
-            builder.Property(o => o.RespondentId)
-                   .ValueGeneratedOnAdd();
             builder.HasIndex(t => t.Uid)
                    .IsUnique();
             builder.Property(t => t.Uid)

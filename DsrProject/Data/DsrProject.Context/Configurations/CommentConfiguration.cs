@@ -13,8 +13,6 @@ namespace DsrProject.Context.Configurations
                    .IsUnique();
             builder.Property(c => c.Id)
                    .ValueGeneratedOnAdd();
-            builder.Property(c => c.CommentId)
-                   .ValueGeneratedOnAdd();
             builder.Property(c => c.Uid)
                    .IsRequired();
             builder.HasOne(c => c.Respondent)

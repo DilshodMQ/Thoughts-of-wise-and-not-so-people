@@ -4,7 +4,7 @@ using DsrProject.Common.Responses;
 using DsrProject.Services.Thoughts;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DSRNetSchool.API.Controllers
+namespace DsrProject.API.Controllers
 {
 
     /// <summary>
@@ -57,7 +57,7 @@ namespace DSRNetSchool.API.Controllers
         [HttpGet("{id}")]
         public async Task<ThoughtResponse> GetThoughtById([FromRoute] int id)
         {
-            var thought = await thoughtService.GetThoughts(id);
+            var thought = await thoughtService.GetThought(id);
             var response = mapper.Map<ThoughtResponse>(thought);
 
             return response;

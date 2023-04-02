@@ -9,6 +9,8 @@ namespace DsrProject.Context.Configurations
         public void Configure(EntityTypeBuilder<ThoughtRespondent> builder)
         {
             builder.ToTable("thoughts_respondents");
+            builder.Property(tr => tr.Id)
+                .ValueGeneratedOnAdd();
             builder.HasKey(tr => new { tr.ThoughtId, tr.RespondentId });
             builder.HasOne(tr => tr.Thought)
                    .WithMany(t => t.ThoughtRespondents)

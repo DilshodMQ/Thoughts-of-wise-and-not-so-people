@@ -7,9 +7,15 @@ EXPOSE 80
 FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /src
 COPY ["Systems/Api/DsrProject.Api/DsrProject.Api.csproj", "Systems/Api/DsrProject.Api/"]
-COPY ["Services/DsrProject.Services.Settings/DsrProject.Services.Settings.csproj", "Services/DsrProject.Services.Settings/"]
+COPY ["Data/DsrProject.Context/DsrProject.Context.csproj", "Data/DsrProject.Context/"]
 COPY ["Shared/DsrProject.Settings/DsrProject.Settings.csproj", "Shared/DsrProject.Settings/"]
+COPY ["Data/DsrProject.Context.Entities/DsrProject.Context.Entities.csproj", "Data/DsrProject.Context.Entities/"]
+COPY ["Data/Migrations/DsrProject.Context.MigrationsPostgreSQL/DsrProject.Context.MigrationsPostgreSQL.csproj", "Data/Migrations/DsrProject.Context.MigrationsPostgreSQL/"]
+COPY ["Services/DsrProject.Services.Categories/DsrProject.Services.Categories.csproj", "Services/DsrProject.Services.Categories/"]
 COPY ["Shared/DsrProject.Common/DsrProject.Common.csproj", "Shared/DsrProject.Common/"]
+COPY ["Services/DsrProject.Services.Respondents/DsrProject.Services.Respondents.csproj", "Services/DsrProject.Services.Respondents/"]
+COPY ["Services/DsrProject.Services.Settings/DsrProject.Services.Settings.csproj", "Services/DsrProject.Services.Settings/"]
+COPY ["Services/DsrProject.Services.Thoughts/DsrProject.Services.Thoughts.csproj", "Services/DsrProject.Services.Thoughts/"]
 COPY ["Systems/Api/DsrProject.Api.Settings/DsrProject.Api.Settings.csproj", "Systems/Api/DsrProject.Api.Settings/"]
 RUN dotnet restore "Systems/Api/DsrProject.Api/DsrProject.Api.csproj"
 COPY . .

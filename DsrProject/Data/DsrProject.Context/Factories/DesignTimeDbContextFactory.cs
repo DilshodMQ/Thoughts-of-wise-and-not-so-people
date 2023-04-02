@@ -1,4 +1,4 @@
-﻿using DSRNetSchool.Context;
+﻿using DsrProject.Context;
 using DsrProject.Context.Settings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;

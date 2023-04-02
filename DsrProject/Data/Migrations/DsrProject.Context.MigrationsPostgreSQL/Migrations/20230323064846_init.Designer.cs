@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 {
     [DbContext(typeof(MainDbContext))]
-    [Migration("20230313105308_Changeded_comment_model")]
-    partial class Changeded_comment_model
+    [Migration("20230323064846_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -84,9 +84,6 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -110,12 +107,6 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CommentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CommentId"));
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -158,12 +149,6 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int>("RespondentId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RespondentId"));
 
                     b.Property<Guid>("Uid")
                         .HasColumnType("uuid");
@@ -237,6 +222,15 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 
                     b.Property<int>("RespondentId")
                         .HasColumnType("integer");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("Uid")
+                        .HasColumnType("uuid");
 
                     b.HasKey("ThoughtId", "RespondentId");
 

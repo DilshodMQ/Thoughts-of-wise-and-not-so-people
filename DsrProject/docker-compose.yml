@@ -2,8 +2,8 @@ version: '3.4'
 
 services:
 
-  dsrproject_postgresql:
-    image: postgres:14.1
+  #dsrproject_postgresql:
+  #  image: postgres:latest
     
   dsrproject_redis:
     image: redis
@@ -15,5 +15,5 @@ services:
       dockerfile: Systems/Api/DsrProject.Api/Dockerfile
 
     depends_on:
-      - dsrproject_postgresql
+      #- dsrproject_postgresql
       - dsrproject_redis

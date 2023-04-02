@@ -2,7 +2,7 @@
 using DsrProject.Context.Settings;
 using Microsoft.EntityFrameworkCore;
 
-namespace DSRNetSchool.Context
+namespace DsrProject.Context
 {
     public static class DbContextOptionsFactory
     {

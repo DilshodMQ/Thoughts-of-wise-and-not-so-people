@@ -7,7 +7,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 {
     /// <inheritdoc />
-    public partial class added_comment_model : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,6 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CategoryId = table.Column<int>(type: "integer", nullable: false),
                     Title = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Uid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
@@ -46,8 +45,6 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    RespondentId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
@@ -107,7 +104,6 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Content = table.Column<string>(type: "text", nullable: false),
-                    CommentId = table.Column<int>(type: "integer", nullable: false),
                     RespondentId = table.Column<int>(type: "integer", nullable: false),
                     ThoughtId = table.Column<int>(type: "integer", nullable: false),
                     Uid = table.Column<Guid>(type: "uuid", nullable: false)
@@ -160,7 +156,10 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                 columns: table => new
                 {
                     ThoughtId = table.Column<int>(type: "integer", nullable: false),
-                    RespondentId = table.Column<int>(type: "integer", nullable: false)
+                    RespondentId = table.Column<int>(type: "integer", nullable: false),
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Uid = table.Column<Guid>(type: "uuid", nullable: false)
                 },
                 constraints: table =>
                 {

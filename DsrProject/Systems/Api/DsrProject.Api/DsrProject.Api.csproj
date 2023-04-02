@@ -48,13 +48,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\DsrProject.Context\DsrProject.Context.csproj" />
-    <ProjectReference Include="..\..\..\Data\Migrations\DsrProject.Context.MigrationsMSSQL\DsrProject.Context.MigrationsMSSQL.csproj" />
     <ProjectReference Include="..\..\..\Data\Migrations\DsrProject.Context.MigrationsPostgreSQL\DsrProject.Context.MigrationsPostgreSQL.csproj" />
+    <ProjectReference Include="..\..\..\Services\DsrProject.Services.Categories\DsrProject.Services.Categories.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Respondents\DsrProject.Services.Respondents.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Settings\DsrProject.Services.Settings.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Thoughts\DsrProject.Services.Thoughts.csproj" />
     <ProjectReference Include="..\..\..\Shared\DsrProject.Common\DsrProject.Common.csproj" />
-    <ProjectReference Include="..\..\..\Shared\DsrProject.Settings\DsrProject.Settings.csproj" />
     <ProjectReference Include="..\DsrProject.Api.Settings\DsrProject.Api.Settings.csproj" />
   </ItemGroup>
 
