@@ -2,17 +2,17 @@ version: '3.4'
 
 services:
 
-  #dsrproject_postgresql:
-  #  environment:
-  #    - POSTGRES_USER=postgres
-  #    - POSTGRES_PASSWORD=passw0rd
-  #    - POSTGRES_DB=dsrDB
-  #  ports:
-  #    - "5432:5432"
-  #  networks:
-  #    - shared_dsrproject_net
-  #  volumes:      
-  #    - ~/.docker-conf/postgresql/data/:/var/lib/postgresql/data
+  dsrproject_postgresql:
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=passw0rd
+      - POSTGRES_DB=dsrDB
+    ports:
+      - "5432:5432"
+    networks:
+      - shared_dsrproject_net
+    volumes:      
+      - ~/.docker-conf/postgresql/data/:/var/lib/postgresql/data
 
       
   dsrproject_redis:
