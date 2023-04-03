@@ -34,5 +34,4 @@ services:
 
 networks:
   shared_dsrproject_net:
-    name: dsr_net_project
     driver: bridge
