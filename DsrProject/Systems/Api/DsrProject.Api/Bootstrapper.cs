@@ -3,6 +3,7 @@ using DsrProject.Services.Categories;
 using DsrProject.Services.Respondents;
 using DsrProject.Services.Settings;
 using DsrProject.Services.Thoughts;
+using DsrProject.Services.UserAccount;
 
 namespace DsrProject.Api
 {
@@ -14,15 +15,23 @@ namespace DsrProject.Api
                 .AddSwaggerSettings(builder)
                 .AddApiSpecialSettings(builder)
                 .AddMainSettings(builder)
+                .AddIdentitySettings(builder)
                 .AddMailSettings(builder)
                 .AddThouhgtService()
                 .AddRespondentService()
+                .AddUserAccountService()
                 .AddCategoryService();
             return services;
         }
         public static IServiceCollection AddMainSettings(this IServiceCollection services, WebApplicationBuilder builder)
         {
             services.Configure<MainSettings>(builder.Configuration.GetSection("Main"));
+            return services;
+        }
+
+        public static IServiceCollection AddIdentitySettings(this IServiceCollection services, WebApplicationBuilder builder)
+        {
+            services.Configure<IdentitySettings>(builder.Configuration.GetSection("Identity"));
             return services;
         }
         public static IServiceCollection AddApiSpecialSettings(this IServiceCollection services, WebApplicationBuilder builder)

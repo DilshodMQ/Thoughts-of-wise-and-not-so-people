@@ -9,10 +9,10 @@ services:
       - POSTGRES_DB=dsrDB
     ports:
       - "5432:5432"
+
+    restart: unless-stopped
     networks:
       - shared_dsrproject_net
-    volumes:      
-      - ~/.docker-conf/postgresql/data/:/var/lib/postgresql/data
 
       
   dsrproject_redis:
@@ -20,6 +20,7 @@ services:
       - '6379:6379'
     networks:
       - shared_dsrproject_net
+    restart: unless-stopped
     volumes:      
       - ~/.docker-conf/redis/data/:/data
 
@@ -31,8 +32,17 @@ services:
       - shared_dsrproject_net
     env_file:
       - env.api
+    restart: unless-stopped
+
+  dsrproject.identity:
+    ports:
+      - "10001:80"
+    networks:
+      - shared_dsrproject_net
+    env_file:
+      - env.identity
+    restart: unless-stopped
 
 networks:
   shared_dsrproject_net:
-    name: dsr_net_project
     driver: bridge
