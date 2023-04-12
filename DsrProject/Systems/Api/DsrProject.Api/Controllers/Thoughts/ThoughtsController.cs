@@ -1,7 +1,9 @@
 ﻿using AutoMapper;
 using DsrProject.API.Controllers.Models;
 using DsrProject.Common.Responses;
+using DsrProject.Common.Security;
 using DsrProject.Services.Thoughts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DsrProject.API.Controllers
@@ -17,6 +19,7 @@ namespace DsrProject.API.Controllers
     [ProducesResponseType(typeof(ErrorResponse), 400)]
     [Produces("application/json")]
     [Route("api/v{version:apiVersion}/thoughts")]
+    [Authorize]
     [ApiController]
     [ApiVersion("1.0")]
     public class ThoughtsController : ControllerBase
@@ -41,6 +44,7 @@ namespace DsrProject.API.Controllers
         /// <response code="200">List of ThoughtResponses</response>
         [ProducesResponseType(typeof(IEnumerable<ThoughtResponse>), 200)]
         [HttpGet("")]
+        [Authorize(Policy = AppScopes.ThoughtsRead)]
         public async Task<IEnumerable<ThoughtResponse>> GetThoughts([FromQuery] int offset = 0, [FromQuery] int limit = 10)
         {
             var thoughts = await thoughtService.GetThoughts(offset, limit);
@@ -55,6 +59,7 @@ namespace DsrProject.API.Controllers
         /// <response code="200">ThoughtResponse></response>
         [ProducesResponseType(typeof(ThoughtResponse), 200)]
         [HttpGet("{id}")]
+        [Authorize(Policy = AppScopes.ThoughtsRead)]
         public async Task<ThoughtResponse> GetThoughtById([FromRoute] int id)
         {
             var thought = await thoughtService.GetThought(id);
@@ -64,6 +69,7 @@ namespace DsrProject.API.Controllers
         }
 
         [HttpPost("")]
+        [Authorize(Policy = AppScopes.ThoughtsWrite)]
         public async Task<ThoughtResponse> AddThought([FromBody] AddThoughtRequest request)
         {
             var model = mapper.Map<AddThoughtModel>(request);
@@ -74,6 +80,7 @@ namespace DsrProject.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Policy = AppScopes.ThoughtsWrite)]
         public async Task<IActionResult> UpdateThought([FromRoute] int id, [FromBody] UpdateThoughtRequest request)
         {
             var model = mapper.Map<UpdateThoughtModel>(request);
@@ -83,6 +90,7 @@ namespace DsrProject.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Policy = AppScopes.ThoughtsWrite)]
         public async Task<IActionResult> DeleteThought([FromRoute] int id)
         {
             await thoughtService.DeleteThought(id);

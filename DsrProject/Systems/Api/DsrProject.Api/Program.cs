@@ -30,7 +30,6 @@ services.AddAppControllerAndViews();
 
 services.RegisterAppServices(builder);
 
-
 var app = builder.Build();
 
 app.UseAppHealthChecks();
