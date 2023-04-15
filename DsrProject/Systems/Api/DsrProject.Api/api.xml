@@ -47,7 +47,7 @@
             Swagger configuration
             </summary>
         </member>
-        <member name="M:DsrProject.Api.Configuration.SwaggerConfiguration.AddAppSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,DsrProject.Services.Settings.MainSettings,DsrProject.Services.Settings.SwaggerSettings)">
+        <member name="M:DsrProject.Api.Configuration.SwaggerConfiguration.AddAppSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,DsrProject.Services.Settings.IdentitySettings,DsrProject.Services.Settings.SwaggerSettings)">
             <summary>
             Add OpenAPI for API
             </summary>
@@ -128,18 +128,6 @@
             <summary>
             UnSubscribe from Thought
             </summary>
-        </member>
-        <member name="M:DsrProject.Api.Controllers.TestController.GetData1">
-            <summary>
-            Get data 1
-            </summary>
-            <response code="200">String items</response>
-        </member>
-        <member name="M:DsrProject.Api.Controllers.TestController.GetData2(System.String)">
-            <summary>
-            Get data 2
-            </summary>
-            <response code="200">String items</response>
         </member>
         <member name="P:DsrProject.API.Controllers.Models.CategoryResponse.Id">
             <summary>

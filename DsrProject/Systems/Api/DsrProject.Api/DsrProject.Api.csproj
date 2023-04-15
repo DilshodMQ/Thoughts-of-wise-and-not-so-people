@@ -24,9 +24,11 @@
    
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.2.2" />
    
+    <PackageReference Include="IdentityServer4.AccessTokenValidation" Version="3.0.1" />
+   
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
    
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.3">
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
@@ -47,13 +49,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\Data\DsrProject.Context\DsrProject.Context.csproj" />
     <ProjectReference Include="..\..\..\Data\Migrations\DsrProject.Context.MigrationsPostgreSQL\DsrProject.Context.MigrationsPostgreSQL.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Categories\DsrProject.Services.Categories.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Respondents\DsrProject.Services.Respondents.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Settings\DsrProject.Services.Settings.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Thoughts\DsrProject.Services.Thoughts.csproj" />
+    <ProjectReference Include="..\..\..\Services\DsrProject.Services.UserAccount\DsrProject.Services.UserAccount.csproj" />
     <ProjectReference Include="..\..\..\Shared\DsrProject.Common\DsrProject.Common.csproj" />
+    <ProjectReference Include="..\..\..\Shared\DsrProject.Settings\DsrProject.Settings.csproj" />
     <ProjectReference Include="..\DsrProject.Api.Settings\DsrProject.Api.Settings.csproj" />
   </ItemGroup>
 

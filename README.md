@@ -1,1 +1,2 @@
-# https-trello.com-b-GCDdaK2E-thoughts-of-wise-and-not-so-people
+DOCKER-COMPOSE BUILD
+DOCKER-COMPOSE UP

@@ -17,3 +17,13 @@ services:
     depends_on:
       - dsrproject_postgresql
       - dsrproject_redis
+  dsrproject.identity:
+    image: ${DOCKER_REGISTRY-}dsrprojectidentity
+    build:
+      context: .
+      dockerfile: Systems/Identity/DsrProject.Identity/Dockerfile
+
+    depends_on:
+      - dsrproject_postgresql
+      - dsrproject_redis
+      - dsrproject.api

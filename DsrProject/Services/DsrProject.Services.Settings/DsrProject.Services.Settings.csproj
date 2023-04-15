@@ -14,4 +14,8 @@
 		</PackageReference>
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\..\Data\DsrProject.Context\DsrProject.Context.csproj" />
+	</ItemGroup>
+
 </Project>

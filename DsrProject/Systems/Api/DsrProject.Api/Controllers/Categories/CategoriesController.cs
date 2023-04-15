@@ -2,6 +2,7 @@
 using DsrProject.API.Controllers.Models;
 using DsrProject.Common.Responses;
 using DsrProject.Services.Categories;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DsrProject.Api.Controllers.Categories
@@ -16,6 +17,7 @@ namespace DsrProject.Api.Controllers.Categories
     [ProducesResponseType(typeof(ErrorResponse), 400)]
     [Produces("application/json")]
     [Route("api/v{version:apiVersion}/categories")]
+    [Authorize]
     [ApiController]
     [ApiVersion("1.0")]
     public class CategoriesController : ControllerBase

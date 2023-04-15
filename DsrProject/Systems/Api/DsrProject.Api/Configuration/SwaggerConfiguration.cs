@@ -24,7 +24,7 @@ namespace DsrProject.Api.Configuration
         /// <param name="services">Services collection</param>
         /// <param name="mainSettings"></param>
         /// <param name="swaggerSettings"></param>
-        public static IServiceCollection AddAppSwagger(this IServiceCollection services, MainSettings mainSettings, SwaggerSettings swaggerSettings)
+        public static IServiceCollection AddAppSwagger(this IServiceCollection services, IdentitySettings identitySettings, SwaggerSettings swaggerSettings)
         {
             if (!swaggerSettings.Enabled)
                 return services;
@@ -68,11 +68,11 @@ namespace DsrProject.Api.Configuration
                     {
                         Password = new OpenApiOAuthFlow
                         {
-                            TokenUrl = new Uri($"{mainSettings.MainUrl}/connect/token"),
+                            TokenUrl = new Uri($"{identitySettings.Url}/connect/token"),
                             Scopes = new Dictionary<string, string>
                             {
-                            {AppScopes.BooksRead, "BooksRead"},
-                            {AppScopes.BooksWrite, "BooksWrite"}
+                            {AppScopes.ThoughtsRead, "ThoughtsRead"},
+                            {AppScopes.ThoughtsWrite, "ThoughtsWrite"}
                             }
                         }
                     }
@@ -128,7 +128,7 @@ namespace DsrProject.Api.Configuration
             app.UseSwaggerUI(
                 options =>
                 {
-                    options.RoutePrefix = "api";
+                    options.RoutePrefix = "";
                     provider.ApiVersionDescriptions.ToList().ForEach(
                         description => options.SwaggerEndpoint($"/api/{description.GroupName}/api.yaml", description.GroupName.ToUpperInvariant())
                     );
