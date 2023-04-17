@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using DsrProject.Api.Controllers.Accounts.Models;
 using DsrProject.API.Controllers.Models;
 using DsrProject.Services.UserAccount;
+using DsrProject.Services.UserAccount.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DsrProject.API.Controllers
@@ -28,6 +31,16 @@ namespace DsrProject.API.Controllers
 
             var response = mapper.Map<UserAccountResponse>(user);
 
+            return response;
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<ChangePasswordResponse> ChangePassword([FromQuery]ChangePasswordRequest request)
+        {
+            var model = mapper.Map<ChangePasswordModel>(request);
+            var changedPass = await userAccountService.ChangePassword(model);
+
+            var response=mapper.Map<ChangePasswordResponse>(changedPass);
             return response;
         }
     }

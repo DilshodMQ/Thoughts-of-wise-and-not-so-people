@@ -1,4 +1,5 @@
 ﻿using DsrProject.Services.UserAccount;
+using DsrProject.Services.UserAccount.Models;
 
 namespace DsrProject.Services.UserAccount
 {
@@ -12,5 +13,7 @@ namespace DsrProject.Services.UserAccount
         /// <param name="password"></param>
         /// <returns></returns>
         Task<UserAccountModel> Create(RegisterUserAccountModel model);
+
+        Task<ChangePasswordModel> ChangePassword(ChangePasswordModel model);
     }
 }
