@@ -19,6 +19,7 @@ namespace DsrProject.Context.Configurations
             builder.Property(r => r.Email)
                    .IsRequired()
                    .HasMaxLength(100);
+            builder.HasData(new Respondent { Id = 1, Name = "Tom", Email="Tom@Talking.ru" });
         }
     }
 }

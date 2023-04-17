@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\Data\DsrProject.Context.Entities\DsrProject.Context.Entities.csproj" />
     <ProjectReference Include="..\..\Data\DsrProject.Context\DsrProject.Context.csproj" />
     <ProjectReference Include="..\..\Shared\DsrProject.Common\DsrProject.Common.csproj" />
+    <ProjectReference Include="..\DsrProject.Services.Cache\DsrProject.Services.Cache.csproj" />
   </ItemGroup>
 
 </Project>

@@ -10,9 +10,7 @@ namespace DsrProject.Context.Configurations
         {
             builder.ToTable("authordetails");
             builder.HasKey(ad => ad.Id);
-            //builder.HasOne(ad => ad.Author)
-            //       .WithOne(a => a.Detail)
-            //       .HasForeignKey("Id");
+            builder.HasData(new AuthorDetail { AuthorId = 1, Family = "Aliyev", Country = "UZ" , Id=1});
 
         }
     }

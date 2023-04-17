@@ -4,6 +4,7 @@ using DsrProject.Services.Respondents;
 using DsrProject.Services.Settings;
 using DsrProject.Services.Thoughts;
 using DsrProject.Services.UserAccount;
+using DsrProject.Services.Cache;
 
 namespace DsrProject.Api
 {
@@ -17,6 +18,7 @@ namespace DsrProject.Api
                 .AddMainSettings(builder)
                 .AddIdentitySettings(builder)
                 .AddMailSettings(builder)
+                .AddCache()
                 .AddThouhgtService()
                 .AddRespondentService()
                 .AddUserAccountService()
