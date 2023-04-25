@@ -17,7 +17,6 @@ namespace DsrProject.Api.Controllers.Categories
     [ProducesResponseType(typeof(ErrorResponse), 400)]
     [Produces("application/json")]
     [Route("api/v{version:apiVersion}/categories")]
-    [Authorize]
     [ApiController]
     [ApiVersion("1.0")]
     public class CategoriesController : ControllerBase

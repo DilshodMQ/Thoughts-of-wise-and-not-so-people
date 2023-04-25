@@ -1,16 +1,13 @@
 ﻿using AutoMapper;
-using AutoMapper.Internal;
 using DsrProject.Common.Exceptions;
 using DsrProject.Common.Validator;
 using DsrProject.Context;
 using DsrProject.Context.Entities;
+using DsrProject.Services.Actions;
+using DsrProject.Services.EmailSender;
 using DsrProject.Services.Respondents.Models;
 using DsrProject.Services.Settings;
-using MailKit.Net.Smtp;
-using MailKit.Security;
 using Microsoft.EntityFrameworkCore;
-using MimeKit;
-using MimeKit.Text;
 
 namespace DsrProject.Services.Respondents
 {
@@ -19,17 +16,20 @@ namespace DsrProject.Services.Respondents
         private readonly IDbContextFactory<MainDbContext> contextFactory;
         private readonly IMapper mapper;
         private readonly IModelValidator<AddCommentModel> addCommentModelValidator;
+        private readonly IAction action;
         
 
         public RespondentService(
             IDbContextFactory<MainDbContext> contextFactory,
             IMapper mapper,
+            IAction action,
             IModelValidator<AddCommentModel> addCommentModelValidator
             )
         {
             this.contextFactory = contextFactory;
             this.mapper = mapper;
             this.addCommentModelValidator = addCommentModelValidator;
+            this.action=action;
 
         }
         public async Task<CommentModel> AddComment(AddCommentModel model)
@@ -38,58 +38,69 @@ namespace DsrProject.Services.Respondents
 
             using var context = await contextFactory.CreateDbContextAsync();
 
+            var user = context.Users.FirstOrDefault(r => r.Email.Equals(model.RespondentEmail))
+                 ?? throw new ProcessException($"Respondent with {model.RespondentEmail} has not found");
+
             var comment = mapper.Map<Comment>(model);
+            comment.UserId= user.Id;
             await context.Comments.AddAsync(comment);
             context.SaveChanges();
 
             return mapper.Map<CommentModel>(comment);
         }
 
-        public async Task SendEmail(SubscribeThoughtModel model, MailSettings mailSettings)
+
+        public async Task Subscribe(SubscribeThoughtModel model, MailSettings mailSettings)
         {
             using var context = await contextFactory.CreateDbContextAsync();
+            var user = context.Users.FirstOrDefault(r => r.Email.Equals(model.RespondentEmail))
+                ?? throw new ProcessException($"Respondent with {model.RespondentEmail} has not found");
             var thought = context.Thoughts.FirstOrDefault(t => t.Id.Equals(model.ThoughtId))
                 ?? throw new ProcessException($"Thought with {model.ThoughtId} has not found");
 
-            var email = new MimeMessage();
-            email.Sender = MailboxAddress.Parse(mailSettings.Mail);
-            email.To.Add(MailboxAddress.Parse(model.RespondentEmail));
-            email.Subject = thought.Title;
-            var builder = new BodyBuilder();
+            var thoughtUser = new ThoughtUser();
+            thoughtUser.ThoughtId = model.ThoughtId;
+            thoughtUser.UserId = user.Id;
 
+            context.ThoughtUsers.Add(thoughtUser);
+            await context.SaveChangesAsync();
 
-            builder.HtmlBody = thought.Description;
-            email.Body = builder.ToMessageBody();
-            using var smtp = new SmtpClient();
-            smtp.Connect(mailSettings.Host, mailSettings.Port, SecureSocketOptions.StartTls);
-            smtp.Authenticate(mailSettings.Mail, mailSettings.Password);
-            await smtp.SendAsync(email);
-            smtp.Disconnect(true);
+            await action.SendEmail(new EmailModel
+            {
+                SenderEmail=mailSettings.Mail,
+                SenderPassword=mailSettings.Password,
+                Host=mailSettings.Host,
+                Port=mailSettings.Port,
+                ThoughtId=model.ThoughtId,
+                RespondentEmail = model.RespondentEmail,
+                Subject = "Thoughts notification",
+                Message = $"You have subscribed to thought with Id {model.ThoughtId}"
+            });
         }
 
-        public async Task Subscribe(SubscribeThoughtModel model)
+        public async Task UnSubscribe(SubscribeThoughtModel model, MailSettings mailSettings)
         {
             using var context = await contextFactory.CreateDbContextAsync();
-            var respondent = context.Respondents.FirstOrDefault(r => r.Email.Equals(model.RespondentEmail))
+            var user = context.Users.FirstOrDefault(r => r.Email.Equals(model.RespondentEmail))
                 ?? throw new ProcessException($"Respondent with {model.RespondentEmail} has not found");
 
-            var thoughtRespondent=mapper.Map<ThoughtRespondent>(model);
-            thoughtRespondent.RespondentId = respondent.Id;
-
-            context.ThoughtRespondents.Add( thoughtRespondent );
-            await context.SaveChangesAsync();
-        }
-
-        public async Task UnSubscribe(SubscribeThoughtModel model)
-        {
-            using var context = await contextFactory.CreateDbContextAsync();
-
-            var respondent=context.Respondents.FirstOrDefault(r=>r.Email.Equals(model.RespondentEmail))
-                ??throw new ProcessException($"Respondent with {model.RespondentEmail} has not found");
-            var thoughtRespondent = await context.ThoughtRespondents.FirstOrDefaultAsync(x => (x.ThoughtId.Equals(model.ThoughtId))&&(x.RespondentId.Equals(respondent.Id)))
+            var thoughtUser = await context.ThoughtUsers.FirstOrDefaultAsync(x => (x.ThoughtId.Equals(model.ThoughtId)) && (x.UserId.Equals(user.Id)))
                ?? throw new ProcessException($"This respondent has not subscribed to this thought");
-            context.ThoughtRespondents.Remove( thoughtRespondent );
+
+            context.ThoughtUsers.Remove(thoughtUser);
             await context.SaveChangesAsync();
+
+            await action.SendEmail(new EmailModel
+            {
+                SenderEmail = mailSettings.Mail,
+                SenderPassword = mailSettings.Password,
+                Host = mailSettings.Host,
+                Port = mailSettings.Port,
+                ThoughtId = model.ThoughtId,
+                RespondentEmail = model.RespondentEmail,
+                Subject = "Thoughts notification",
+                Message = $"You have unsubscribed from thought with Id {model.ThoughtId}"
+            });
         }
     }
 }

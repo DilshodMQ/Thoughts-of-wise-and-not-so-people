@@ -13,8 +13,8 @@ namespace DsrProject.Services.Respondents.Validators
             RuleFor(x => x.Content)
                 .NotEmpty().WithMessage("Content is required.");
 
-            RuleFor(x => x.RespondentId)
-                .NotEmpty().WithMessage("Respondent is required.");
+            RuleFor(x => x.RespondentEmail)
+                .NotEmpty().WithMessage("RespondentEmail is required.");
         }
     }
 }

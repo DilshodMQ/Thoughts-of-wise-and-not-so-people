@@ -100,9 +100,9 @@
             Comment Id
             </summary>
         </member>
-        <member name="P:DsrProject.Api.Controllers.Respondents.Models.CommentResponse.RespondentId">
+        <member name="P:DsrProject.Api.Controllers.Respondents.Models.CommentResponse.UserId">
             <summary>
-            Author Id
+            User Id
             </summary>
         </member>
         <member name="T:DsrProject.Api.Controllers.Respondents.RespondentsController">

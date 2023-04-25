@@ -34,6 +34,7 @@ var app = builder.Build();
 
 app.UseAppHealthChecks();
 app.UseAppSwagger();
+app.UseAppCors();
 
 // Configure the HTTP request pipeline.
 

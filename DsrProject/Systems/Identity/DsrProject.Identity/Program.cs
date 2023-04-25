@@ -23,6 +23,7 @@ services.AddIS4();
 var app = builder.Build();
 
 app.UseAppHealthChecks();
+app.UseAppCors();
 
 app.UseIS4();
 

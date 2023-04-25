@@ -2,7 +2,7 @@
 {
     public class AddCommentRequest
     {
-        public int RespondentId { get; set; }
+        public string RespondentEmail { get; set; } = string.Empty;
         public string Content { get; set; } = string.Empty;
         public int ThoughtId { get; set; }
     }

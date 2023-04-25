@@ -2,11 +2,11 @@
 
 namespace DsrProject.Context.Entities
 {
-    public class ThoughtRespondent : BaseEntity
+    public class ThoughtUser : BaseEntity
     {
         public int ThoughtId { get; set; }
         public Thought Thought { get; set; }
-        public int RespondentId { get; set; }
-        public Respondent Respondent { get; set; }
+        public Guid UserId { get; set; }
+        public User User { get; set; }
     }
 }
