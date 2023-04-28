@@ -8,6 +8,9 @@ services:
   dsrproject_redis:
     image: redis
 
+  dsrproject_rabbitmq:
+    image: rabbitmq:management
+
   dsrproject.api:
     image: ${DOCKER_REGISTRY-}dsrprojectapi
     build:
@@ -26,4 +29,16 @@ services:
     depends_on:
       - dsrproject_postgresql
       - dsrproject_redis
+      - dsrproject.api
+
+  dsrproject.worker:
+    image: ${DOCKER_REGISTRY-}dsrprojectworker
+    build:
+      context: .
+      dockerfile: Systems/Workers/DsrProject.Worker/Dockerfile
+
+    depends_on:
+      - dsrproject_postgresql
+      - dsrproject_redis
+      - dsrproject_rabbitmq
       - dsrproject.api

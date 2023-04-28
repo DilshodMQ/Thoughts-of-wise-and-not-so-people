@@ -9,6 +9,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\Data\DsrProject.Context.Entities\DsrProject.Context.Entities.csproj" />
     <ProjectReference Include="..\..\Shared\DsrProject.Common\DsrProject.Common.csproj" />
+    <ProjectReference Include="..\DsrProject.Services.Actions\DsrProject.Services.Actions.csproj" />
+    <ProjectReference Include="..\DsrProject.Services.EmailSender\DsrProject.Services.EmailSender.csproj" />
   </ItemGroup>
 
 </Project>

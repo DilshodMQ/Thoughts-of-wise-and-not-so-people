@@ -5,6 +5,8 @@ using DsrProject.Services.Settings;
 using DsrProject.Services.Thoughts;
 using DsrProject.Services.UserAccount;
 using DsrProject.Services.Cache;
+using DsrProject.Services.RabbitMq;
+using DsrProject.Services.Actions;
 
 namespace DsrProject.Api
 {
@@ -19,6 +21,8 @@ namespace DsrProject.Api
                 .AddIdentitySettings(builder)
                 .AddMailSettings(builder)
                 .AddCache()
+                .AddActions()
+                .AddRabbitMq()
                 .AddThouhgtService()
                 .AddRespondentService()
                 .AddUserAccountService()

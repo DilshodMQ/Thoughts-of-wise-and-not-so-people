@@ -2,6 +2,8 @@
 using DsrProject.Common.Exceptions;
 using DsrProject.Common.Validator;
 using DsrProject.Context.Entities;
+using DsrProject.Services.Actions;
+using DsrProject.Services.EmailSender;
 using DsrProject.Services.UserAccount;
 using DsrProject.Services.UserAccount.Models;
 using Microsoft.AspNetCore.Http;
@@ -12,16 +14,19 @@ namespace DsrProject.Services.UserAccount
     public class UserAccountService : IUserAccountService
     {
         private readonly IMapper mapper;
+        private readonly IAction action;
         private readonly UserManager<User> userManager;
         private readonly IModelValidator<RegisterUserAccountModel> registerUserAccountModelValidator;
         private readonly IModelValidator<ChangePasswordModel> changePasswordModelValidator;
         public UserAccountService(
             IMapper mapper,
+            IAction action,
             UserManager<User> userManager,
             IModelValidator<RegisterUserAccountModel> registerUserAccountModelValidator,
             IModelValidator<ChangePasswordModel> changePasswordModelValidator)
         {
             this.mapper = mapper;
+            this.action = action;
             this.userManager = userManager;
             this.registerUserAccountModelValidator = registerUserAccountModelValidator;
             this.changePasswordModelValidator= changePasswordModelValidator;
@@ -65,6 +70,14 @@ namespace DsrProject.Services.UserAccount
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 throw new ProcessException($"Creating user account is wrong. {String.Join(", ", result.Errors.Select(s => s.Description))}");
+
+            //await action.SendEmail(new EmailModel
+            //{
+            //    Email = model.Email,
+            //    Subject = "DsrProject notification",
+            //    Message = "You are registered"
+            //});
+
             // Returning the created user
             return mapper.Map<UserAccountModel>(user);
         }

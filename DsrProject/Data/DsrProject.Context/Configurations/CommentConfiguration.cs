@@ -15,7 +15,7 @@ namespace DsrProject.Context.Configurations
                    .ValueGeneratedOnAdd();
             builder.Property(c => c.Uid)
                    .IsRequired();
-            builder.HasOne(c => c.Respondent)
+            builder.HasOne(c => c.User)
                    .WithMany(r => r.Comments);
             builder.HasOne(c => c.Thought)
                    .WithMany(t => t.Comments);

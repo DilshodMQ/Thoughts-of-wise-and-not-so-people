@@ -17,7 +17,7 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.4")
+                .HasAnnotation("ProductVersion", "7.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -50,7 +50,7 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         {
                             Id = 1,
                             Name = "Ali",
-                            Uid = new Guid("cbacb2d5-e62f-45eb-9184-cafae7774404")
+                            Uid = new Guid("c6448467-dbb4-474b-9cea-b3b4cbdfae25")
                         });
                 });
 
@@ -126,62 +126,25 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("RespondentId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ThoughtId")
                         .HasColumnType("integer");
 
                     b.Property<Guid>("Uid")
                         .HasColumnType("uuid");
 
-                    b.HasKey("Id");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
-                    b.HasIndex("RespondentId");
+                    b.HasKey("Id");
 
                     b.HasIndex("ThoughtId");
 
                     b.HasIndex("Uid")
                         .IsUnique();
 
+                    b.HasIndex("UserId");
+
                     b.ToTable("comments", (string)null);
-                });
-
-            modelBuilder.Entity("DsrProject.Context.Entities.Respondent", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("Uid")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Uid")
-                        .IsUnique();
-
-                    b.ToTable("respondents", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Email = "Tom@Talking.ru",
-                            Name = "Tom",
-                            Uid = new Guid("ab32a178-035e-4a04-b875-703d678967fd")
-                        });
                 });
 
             modelBuilder.Entity("DsrProject.Context.Entities.Thought", b =>
@@ -223,7 +186,7 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                             AuthorId = 1,
                             Description = "Hello world",
                             Title = "Best",
-                            Uid = new Guid("4216884b-efa7-4c14-888f-f95d5a863a66")
+                            Uid = new Guid("3d8954ab-99d2-4ba9-bb93-6311c13336ff")
                         },
                         new
                         {
@@ -231,7 +194,7 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                             AuthorId = 1,
                             Description = "Hello programmer",
                             Title = "Worst",
-                            Uid = new Guid("8afb95cc-1f4b-4ce7-9f01-e3ab8876f4ba")
+                            Uid = new Guid("72b804fc-c88d-49d8-9815-8e4fbe99192b")
                         });
                 });
 
@@ -256,13 +219,13 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                     b.ToTable("thoughts_categories", (string)null);
                 });
 
-            modelBuilder.Entity("DsrProject.Context.Entities.ThoughtRespondent", b =>
+            modelBuilder.Entity("DsrProject.Context.Entities.ThoughtUser", b =>
                 {
                     b.Property<int>("ThoughtId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RespondentId")
-                        .HasColumnType("integer");
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uuid");
 
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -273,11 +236,11 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                     b.Property<Guid>("Uid")
                         .HasColumnType("uuid");
 
-                    b.HasKey("ThoughtId", "RespondentId");
+                    b.HasKey("ThoughtId", "UserId");
 
-                    b.HasIndex("RespondentId");
+                    b.HasIndex("UserId");
 
-                    b.ToTable("thoughts_respondents", (string)null);
+                    b.ToTable("thoughts_users", (string)null);
                 });
 
             modelBuilder.Entity("DsrProject.Context.Entities.User", b =>
@@ -493,21 +456,21 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
 
             modelBuilder.Entity("DsrProject.Context.Entities.Comment", b =>
                 {
-                    b.HasOne("DsrProject.Context.Entities.Respondent", "Respondent")
-                        .WithMany("Comments")
-                        .HasForeignKey("RespondentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DsrProject.Context.Entities.Thought", "Thought")
                         .WithMany("Comments")
                         .HasForeignKey("ThoughtId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Respondent");
+                    b.HasOne("DsrProject.Context.Entities.User", "User")
+                        .WithMany("Comments")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Thought");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("DsrProject.Context.Entities.Thought", b =>
@@ -540,23 +503,23 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                     b.Navigation("Thought");
                 });
 
-            modelBuilder.Entity("DsrProject.Context.Entities.ThoughtRespondent", b =>
+            modelBuilder.Entity("DsrProject.Context.Entities.ThoughtUser", b =>
                 {
-                    b.HasOne("DsrProject.Context.Entities.Respondent", "Respondent")
-                        .WithMany("ThoughtRespondents")
-                        .HasForeignKey("RespondentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("DsrProject.Context.Entities.Thought", "Thought")
-                        .WithMany("ThoughtRespondents")
+                        .WithMany("ThoughtUsers")
                         .HasForeignKey("ThoughtId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Respondent");
+                    b.HasOne("DsrProject.Context.Entities.User", "User")
+                        .WithMany("ThoughtUsers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Thought");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -622,20 +585,20 @@ namespace DsrProject.Context.MigrationsPostgreSQL.Migrations
                     b.Navigation("ThoughtCategories");
                 });
 
-            modelBuilder.Entity("DsrProject.Context.Entities.Respondent", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("ThoughtRespondents");
-                });
-
             modelBuilder.Entity("DsrProject.Context.Entities.Thought", b =>
                 {
                     b.Navigation("Comments");
 
                     b.Navigation("ThoughtCategories");
 
-                    b.Navigation("ThoughtRespondents");
+                    b.Navigation("ThoughtUsers");
+                });
+
+            modelBuilder.Entity("DsrProject.Context.Entities.User", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("ThoughtUsers");
                 });
 #pragma warning restore 612, 618
         }

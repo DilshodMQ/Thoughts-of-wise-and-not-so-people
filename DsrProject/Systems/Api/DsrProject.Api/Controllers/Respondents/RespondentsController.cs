@@ -27,7 +27,12 @@ namespace DsrProject.Api.Controllers.Respondents
         private readonly ILogger<RespondentsController> logger;
         private readonly IRespondentService respondentService;
         private readonly MailSettings mailSettings;
-        public RespondentsController(IMapper mapper, ILogger<RespondentsController> logger, IRespondentService respondentService, IOptions<MailSettings> mailSettings)
+        public RespondentsController(
+            IMapper mapper,
+            ILogger<RespondentsController> logger,
+            IRespondentService respondentService, 
+            IOptions<MailSettings> mailSettings)
+
         {
             this.mapper = mapper;
             this.logger = logger;
@@ -57,8 +62,8 @@ namespace DsrProject.Api.Controllers.Respondents
         public async Task<IActionResult> Subscribe([FromBody] SubscribeThoughtRequest request)
         {
             var model = mapper.Map<SubscribeThoughtModel>(request);
-            respondentService.Subscribe(model);
-            await respondentService.SendEmail(model, mailSettings);
+            await  respondentService.Subscribe(model, mailSettings);
+
             return Ok();
         }
 
@@ -70,7 +75,7 @@ namespace DsrProject.Api.Controllers.Respondents
         public async Task<IActionResult> UnSubscribe([FromBody] SubscribeThoughtRequest request)
         {
             var model = mapper.Map<SubscribeThoughtModel>(request);
-            respondentService.UnSubscribe(model);
+            respondentService.UnSubscribe(model, mailSettings);
             return Ok();
         }
     }

@@ -9,7 +9,7 @@ namespace DsrProject.Context.Entities
         public int AuthorId { get; set; }
         public Author? Author { get; set; }
         public ICollection<ThoughtCategory> ThoughtCategories { get; set; }
-        public ICollection<ThoughtRespondent> ThoughtRespondents { get; set; }
+        public ICollection<ThoughtUser> ThoughtUsers { get; set; }
         public ICollection<Comment>? Comments { get; set; }
 
     }

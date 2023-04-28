@@ -7,9 +7,9 @@
         /// </summary>
         public int Id { get; set; }
         /// <summary>
-        /// Author Id
+        /// User Id
         /// </summary>
-        public int RespondentId { get; set; }
+        public Guid UserId { get; set; }
 
         public int ThoughtId { get; set; }
         public string Content { get; set; } = string.Empty;

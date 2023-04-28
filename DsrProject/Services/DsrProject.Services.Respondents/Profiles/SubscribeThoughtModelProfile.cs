@@ -8,7 +8,7 @@ namespace DsrProject.Services.Respondents.Profiles
     {
         public SubscribeThoughtModelProfile()
         {
-            CreateMap<SubscribeThoughtModel, ThoughtRespondent>();
+            CreateMap<SubscribeThoughtModel, ThoughtUser>();
         }
     }
 }

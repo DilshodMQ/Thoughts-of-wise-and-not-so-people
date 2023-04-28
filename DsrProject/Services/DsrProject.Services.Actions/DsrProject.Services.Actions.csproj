@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\DsrProject.Consts\DsrProject.Consts.csproj" />
+    <ProjectReference Include="..\DsrProject.Services.EmailSender\DsrProject.Services.EmailSender.csproj" />
+    <ProjectReference Include="..\DsrProject.Services.RabbitMq\DsrProject.Services.RabbitMq.csproj" />
+  </ItemGroup>
+
+</Project>
