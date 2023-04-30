@@ -37,6 +37,7 @@ namespace DsrProject.Services.Categories
 
             var categories = context
                 .Categories
+                .Include(x=>x.Author)
                 .AsQueryable();
 
             categories = categories

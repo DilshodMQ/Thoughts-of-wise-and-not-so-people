@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using DsrProject.Api.Controllers.Respondents.Models;
+using DsrProject.API.Controllers.Models;
 using DsrProject.Common.Responses;
+using DsrProject.Common.Security;
 using DsrProject.Services.Respondents;
 using DsrProject.Services.Respondents.Models;
 using DsrProject.Services.Settings;
+using DsrProject.Services.Thoughts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 
@@ -27,10 +31,12 @@ namespace DsrProject.Api.Controllers.Respondents
         private readonly ILogger<RespondentsController> logger;
         private readonly IRespondentService respondentService;
         private readonly MailSettings mailSettings;
+        private readonly IThoughtService thoughtService;
         public RespondentsController(
             IMapper mapper,
             ILogger<RespondentsController> logger,
-            IRespondentService respondentService, 
+            IRespondentService respondentService,
+            IThoughtService thoughtService,
             IOptions<MailSettings> mailSettings)
 
         {
@@ -38,6 +44,24 @@ namespace DsrProject.Api.Controllers.Respondents
             this.logger = logger;
             this.respondentService = respondentService;
             this.mailSettings = mailSettings.Value;
+            this.thoughtService = thoughtService;
+        }
+
+        /// <summary>
+        /// Get Thoughts
+        /// </summary>
+        /// <param name="offset">Offset to the first element</param>
+        /// <param name="limit">Count elements on the page</param>
+        /// <response code="200">List of ThoughtResponses</response>
+        [ProducesResponseType(typeof(IEnumerable<ThoughtResponse>), 200)]
+        [HttpGet("")]
+
+        public async Task<IEnumerable<ThoughtResponse>> GetRespondentThoughts([FromQuery] int offset = 0, [FromQuery] int limit = 10)
+        {
+            var thoughts = await thoughtService.GetThoughts(offset, limit);
+            var response = mapper.Map<IEnumerable<ThoughtResponse>>(thoughts);
+
+            return response;
         }
 
         /// <summary>
@@ -75,7 +99,7 @@ namespace DsrProject.Api.Controllers.Respondents
         public async Task<IActionResult> UnSubscribe([FromBody] SubscribeThoughtRequest request)
         {
             var model = mapper.Map<SubscribeThoughtModel>(request);
-            respondentService.UnSubscribe(model, mailSettings);
+            await respondentService.UnSubscribe(model, mailSettings);
             return Ok();
         }
     }

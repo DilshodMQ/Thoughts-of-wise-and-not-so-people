@@ -1,4 +1,6 @@
-﻿using DsrProject.Services.UserAccount;
+﻿using DsrProject.Context.Entities;
+using DsrProject.Services.Settings;
+using DsrProject.Services.UserAccount;
 using DsrProject.Services.UserAccount.Models;
 
 namespace DsrProject.Services.UserAccount
@@ -14,6 +16,8 @@ namespace DsrProject.Services.UserAccount
         /// <returns></returns>
         Task<UserAccountModel> Create(RegisterUserAccountModel model);
 
-        Task<ChangePasswordModel> ChangePassword(ChangePasswordModel model);
+        Task<ChangePasswordModel> ChangePassword(ChangePasswordModel model, User user);
+
+
     }
 }

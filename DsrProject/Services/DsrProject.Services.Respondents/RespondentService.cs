@@ -74,7 +74,7 @@ namespace DsrProject.Services.Respondents
                 ThoughtId=model.ThoughtId,
                 RespondentEmail = model.RespondentEmail,
                 Subject = "Thoughts notification",
-                Message = $"You have subscribed to thought with Id {model.ThoughtId}"
+                Message = $"You have subscribed to thought {thought.Title} {thought.Description}"
             });
         }
 
@@ -84,8 +84,11 @@ namespace DsrProject.Services.Respondents
             var user = context.Users.FirstOrDefault(r => r.Email.Equals(model.RespondentEmail))
                 ?? throw new ProcessException($"Respondent with {model.RespondentEmail} has not found");
 
-            var thoughtUser = await context.ThoughtUsers.FirstOrDefaultAsync(x => (x.ThoughtId.Equals(model.ThoughtId)) && (x.UserId.Equals(user.Id)))
+            var thoughtUser = await context.ThoughtUsers.FirstOrDefaultAsync( x => (x.ThoughtId.Equals(model.ThoughtId)) && (x.UserId.Equals(user.Id)))
                ?? throw new ProcessException($"This respondent has not subscribed to this thought");
+            context.ThoughtUsers.Remove(thoughtUser);
+            var thought = context.Thoughts.FirstOrDefault(t => t.Id.Equals(model.ThoughtId))
+                ?? throw new ProcessException($"Thought with {model.ThoughtId} has not found");
 
             context.ThoughtUsers.Remove(thoughtUser);
             await context.SaveChangesAsync();
@@ -99,7 +102,7 @@ namespace DsrProject.Services.Respondents
                 ThoughtId = model.ThoughtId,
                 RespondentEmail = model.RespondentEmail,
                 Subject = "Thoughts notification",
-                Message = $"You have unsubscribed from thought with Id {model.ThoughtId}"
+                Message = $"You have unsubscribed from thought {thought.Title}"
             });
         }
     }

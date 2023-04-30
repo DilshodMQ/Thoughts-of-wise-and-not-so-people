@@ -24,6 +24,8 @@ namespace DsrProject.Context.Configurations
                    .WithOne(x => x.Author)
                    .HasForeignKey<AuthorDetail>(x => x.AuthorId);
             builder.HasData(new Author { Id = 1, Name = "Ali" });
+            builder.HasData(new Author { Id = 2, Name = "Arestotel" });
+            builder.HasData(new Author { Id = 3, Name = "Pifagor" });
         }
 
     }

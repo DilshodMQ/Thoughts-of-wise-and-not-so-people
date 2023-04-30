@@ -61,6 +61,12 @@ services:
     env_file:
       - env.worker
 
+  dsrproject_web:
+    ports:
+      - "10002:80"
+    networks:
+      - shared_dsrproject_net
+
 networks:
   shared_dsrproject_net:
     driver: bridge

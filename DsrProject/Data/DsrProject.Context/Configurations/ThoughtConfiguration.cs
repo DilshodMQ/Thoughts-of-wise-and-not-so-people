@@ -23,8 +23,11 @@ namespace DsrProject.Context.Configurations
             builder.HasOne(t => t.Author)
                    .WithMany(a => a.Thoughts)
                    .HasForeignKey(t => t.AuthorId);
-            builder.HasData(new Thought { Id = 1, AuthorId= 1, Description="Hello world", Title="Best" });
-            builder.HasData(new Thought { Id = 2, AuthorId = 1, Description = "Hello programmer", Title = "Worst" });
+            builder.HasOne(t => t.Category)
+                  .WithMany(a => a.Thoughts)
+                  .HasForeignKey(t => t.CategoryId);
+            builder.HasData(new Thought { Id = 1, AuthorId= 1, CategoryId=1, Description="Hello world", Title="Best" });
+            builder.HasData(new Thought { Id = 2, AuthorId = 2, CategoryId=1, Description = "Hello programmer", Title = "Worst" });
         }
     }
 }

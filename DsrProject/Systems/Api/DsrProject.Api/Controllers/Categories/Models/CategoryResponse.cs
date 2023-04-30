@@ -13,7 +13,9 @@ namespace DsrProject.API.Controllers.Models
         /// Comment content
         /// </summary>
         public string Title { get; set; } = string.Empty;
-      
+
+        public string  Author { get; set; }
+
     }
 
 }

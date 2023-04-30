@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿
+using AutoMapper;
 using DsrProject.Common.Exceptions;
 using DsrProject.Common.Validator;
 using DsrProject.Context;
@@ -53,6 +54,7 @@ namespace DsrProject.Services.Thoughts
             var thoughts = context
                 .Thoughts
                 .Include(x => x.Author)
+                .Include(x=>x.Category)
                 .AsQueryable();
 
             thoughts = thoughts
@@ -82,10 +84,11 @@ namespace DsrProject.Services.Thoughts
             using var context = await contextFactory.CreateDbContextAsync();
 
             var thought = mapper.Map<Thought>(model);
-
             await context.Thoughts.AddAsync(thought);
+
             context.SaveChanges();
 
+            await cacheService.Delete(contextCacheKey);
             return mapper.Map<ThoughtModel>(thought);
         }
 
@@ -102,6 +105,8 @@ namespace DsrProject.Services.Thoughts
             thought = mapper.Map(model, thought);
 
             context.Thoughts.Update(thought);
+
+            await cacheService.Delete(contextCacheKey);
             context.SaveChanges();
         }
 
@@ -113,6 +118,8 @@ namespace DsrProject.Services.Thoughts
                 ?? throw new ProcessException($"The thought (id: {thoughtId}) was not found");
 
             context.Remove(thought);
+
+            await cacheService.Delete(contextCacheKey);
             context.SaveChanges();
         }
     }

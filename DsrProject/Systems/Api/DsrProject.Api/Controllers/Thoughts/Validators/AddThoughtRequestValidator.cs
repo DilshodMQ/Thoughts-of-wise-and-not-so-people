@@ -10,6 +10,9 @@ namespace DsrProject.Api.Controllers.Thoughts.Validators
             RuleFor(x => x.AuthorId)
                 .NotEmpty().WithMessage("Author is required.");
 
+            RuleFor(x => x.CategoryId)
+                .NotEmpty().WithMessage("Category is required.");
+
             RuleFor(x => x.Title)
                 .NotEmpty().WithMessage("Title is required.")
                 .MaximumLength(50).WithMessage("Title is long.");

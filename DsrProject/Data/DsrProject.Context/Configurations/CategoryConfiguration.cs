@@ -19,6 +19,10 @@ namespace DsrProject.Context.Configurations
             builder.Property(t => t.Title)
                     .IsRequired()
                     .HasMaxLength(100);
+            builder.HasOne(t => t.Author)
+                  .WithMany(a => a.Categories)
+                  .HasForeignKey(t => t.AuthorId);
+            builder.HasData(new Category { Id = 1, AuthorId = 1,  Title = "Philosophy" });
         }
     }
 }

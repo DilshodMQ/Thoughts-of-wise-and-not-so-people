@@ -31,10 +31,9 @@ services.AddAppControllerAndViews();
 services.RegisterAppServices(builder);
 
 var app = builder.Build();
-
+app.UseAppCors();
 app.UseAppHealthChecks();
 app.UseAppSwagger();
-app.UseAppCors();
 
 // Configure the HTTP request pipeline.
 

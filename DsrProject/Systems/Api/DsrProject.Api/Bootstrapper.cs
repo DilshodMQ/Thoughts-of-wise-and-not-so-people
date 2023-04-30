@@ -7,6 +7,7 @@ using DsrProject.Services.UserAccount;
 using DsrProject.Services.Cache;
 using DsrProject.Services.RabbitMq;
 using DsrProject.Services.Actions;
+using DsrProject.Services.Authors;
 
 namespace DsrProject.Api
 {
@@ -26,6 +27,7 @@ namespace DsrProject.Api
                 .AddThouhgtService()
                 .AddRespondentService()
                 .AddUserAccountService()
+                .AddAuthorService()
                 .AddCategoryService();
             return services;
         }
