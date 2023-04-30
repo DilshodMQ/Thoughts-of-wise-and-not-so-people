@@ -1,0 +1,142 @@
+﻿@page "/thoughts"
+@attribute [Authorize]
+@layout MainLayout
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IThoughtService thoughtService
+@inject NavigationManager navigationManager
+
+<MudText Typo="Typo.h4" Class="ma-8">Thoughts</MudText>
+
+<MudTable Items="@ThoughtListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<ThoughtListItem,bool>(FilterFuncSimple)">
+    <ColGroup>
+        <col style="width:50px;" />
+        <col />
+        <col />
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudButton StartIcon="@Icons.Material.Filled.Add" Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddThought())">Add</MudButton>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Author</MudTh>
+        <MudTh>Category</MudTh>
+        <MudTh>Title</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Author">@context.Author</MudTd>
+        <MudTd DataLabel="Author">@context.Category</MudTd>
+        <MudTd DataLabel="Title">@context.Title</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd>
+            <MudIconButton Icon="@Icons.Material.Filled.Edit" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => EditThought(context.Id))" />
+            <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Small" OnClick="@((e) => DeleteThought(context.Id))" />
+            </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = false;
+
+    private string searchString = "";
+
+    private IEnumerable<ThoughtListItem> ThoughtListItems = new List<ThoughtListItem>();
+
+    private async Task ReloadData()
+    {
+        ThoughtListItems = await thoughtService.GetThoughts(0, 10000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private bool FilterFuncSimple(ThoughtListItem ThoughtListItem) => FilterFunc(ThoughtListItem, searchString);
+
+    private bool FilterFunc(ThoughtListItem ThoughtListItem, string searchString)
+    {
+        return
+            string.IsNullOrWhiteSpace(searchString)
+            ||
+            ThoughtListItem.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            ThoughtListItem.Author.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            ThoughtListItem.Description.Contains(searchString)
+        ;
+    }
+
+    private async Task AddThought()
+    {
+        var parameters = new DialogParameters { };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<ThoughtDialog>("Add thought", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await thoughtService.AddThought(((ThoughtDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+
+    private async Task EditThought(int thoughtId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ThoughtId", thoughtId);
+
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+        var dialog = DialogService.Show<ThoughtDialog>("Edit thought", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await thoughtService.EditThought(thoughtId, ((ThoughtDialog)dialog.Dialog).model);
+            await ReloadData();
+        }
+    }
+    
+
+    private async Task DeleteThought(int thoughtId)
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("ContentText", "Do you really want to delete this thought? This process cannot be undone.");
+        parameters.Add("ButtonText", "Delete");
+        parameters.Add("Color", Color.Error);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.ExtraSmall };
+
+        var dialog = DialogService.Show<ConfirmationDialog>("Delete thought", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            await thoughtService.DeleteThought(thoughtId);
+            await ReloadData();
+        }
+    }
+}

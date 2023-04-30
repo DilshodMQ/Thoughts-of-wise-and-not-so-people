@@ -7,7 +7,8 @@ namespace DsrProject.Services.Categories.Profiles
     {
         public CategoryModelProfile()
         {
-            CreateMap<Category, CategoryModel>();
+            CreateMap<Category, CategoryModel>()
+                .ForMember(dest => dest.Author, opt => opt.MapFrom(src => src.Author.Name));
         }
     }
 }

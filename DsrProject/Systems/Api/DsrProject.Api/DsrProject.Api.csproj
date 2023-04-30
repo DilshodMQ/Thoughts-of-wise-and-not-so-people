@@ -51,6 +51,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\..\Data\Migrations\DsrProject.Context.MigrationsPostgreSQL\DsrProject.Context.MigrationsPostgreSQL.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Actions\DsrProject.Services.Actions.csproj" />
+    <ProjectReference Include="..\..\..\Services\DsrProject.Services.Authors\DsrProject.Services.Authors.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Cache\DsrProject.Services.Cache.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.Categories\DsrProject.Services.Categories.csproj" />
     <ProjectReference Include="..\..\..\Services\DsrProject.Services.RabbitMq\DsrProject.Services.RabbitMq.csproj" />

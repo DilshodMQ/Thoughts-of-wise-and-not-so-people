@@ -42,3 +42,14 @@ services:
       - dsrproject_redis
       - dsrproject_rabbitmq
       - dsrproject.api
+
+  dsrproject_web:
+    image: ${DOCKER_REGISTRY-}dsrprojectweb
+    build:
+      context: .
+      dockerfile: Systems/Web/DsrProject.Web/Dockerfile
+    depends_on:
+      - dsrproject_postgresql
+      - dsrproject_redis
+      - dsrproject_rabbitmq
+      - dsrproject.api

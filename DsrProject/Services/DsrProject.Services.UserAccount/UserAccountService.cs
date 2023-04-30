@@ -4,10 +4,12 @@ using DsrProject.Common.Validator;
 using DsrProject.Context.Entities;
 using DsrProject.Services.Actions;
 using DsrProject.Services.EmailSender;
+using DsrProject.Services.Settings;
 using DsrProject.Services.UserAccount;
 using DsrProject.Services.UserAccount.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using System;
 
 namespace DsrProject.Services.UserAccount
 {
@@ -32,18 +34,27 @@ namespace DsrProject.Services.UserAccount
             this.changePasswordModelValidator= changePasswordModelValidator;
         }
 
-        public async Task<ChangePasswordModel> ChangePassword(ChangePasswordModel model)
+        public async Task<ChangePasswordModel> ChangePassword(ChangePasswordModel model, User user)
         {
-            changePasswordModelValidator.Check(model);     
+            changePasswordModelValidator.Check(model);
 
-            User user = await userManager.FindByEmailAsync(model.Email);
             if (user == null)
             {
                 throw new ProcessException($"User account with email {model.Email} not found");
             }
-            await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (user.Email != model.Email)
+            {
+                throw new ProcessException("Email is wrong");
+            }
+            var result = await userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                throw new ProcessException($"oldPassword is wrong");
+            }
             return model;
         }
+
+       
 
         public async Task<UserAccountModel> Create(RegisterUserAccountModel model)
         {
@@ -70,16 +81,8 @@ namespace DsrProject.Services.UserAccount
             var result = await userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
                 throw new ProcessException($"Creating user account is wrong. {String.Join(", ", result.Errors.Select(s => s.Description))}");
-
-            //await action.SendEmail(new EmailModel
-            //{
-            //    Email = model.Email,
-            //    Subject = "DsrProject notification",
-            //    Message = "You are registered"
-            //});
-
-            // Returning the created user
             return mapper.Map<UserAccountModel>(user);
         }
+
     }
 }

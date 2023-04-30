@@ -22,6 +22,11 @@ namespace DsrProject.API.Controllers.Models
         /// </summary>
         public int AuthorId { get; set; }
 
+        public string Author { get; set; }
+        public int CategoryId { get; set; }
+
+        public string Category{ get; set; }
+
     }
 
 }

@@ -1,0 +1,158 @@
+﻿@page "/respondentthoughts"
+@*@attribute [Authorize]*@
+@layout MainLayout
+
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject IThoughtService thoughtService
+@inject NavigationManager navigationManager
+
+<MudText Typo="Typo.h4" Class="ma-8">Thoughts</MudText>
+
+<MudTable Items="@ThoughtListItems" Class="ma-8" Dense="@dense" Hover="@hover" Bordered="@bordered" Striped="@striped" Filter="new Func<ThoughtListItem,bool>(FilterFuncSimple)">
+    <ColGroup>
+        <col style="width:50px;" />
+        <col />
+        <col />
+        <col />
+        <col style="width:100px;" />
+    </ColGroup>
+    <ToolBarContent>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Author</MudTh>
+        <MudTh>Category</MudTh>
+        <MudTh>Title</MudTh>
+        <MudTh>Description</MudTh>
+        <MudTh></MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Author">@context.Author</MudTd>
+        <MudTd DataLabel="Author">@context.Category</MudTd>
+        <MudTd DataLabel="Title">@context.Title</MudTd>
+        <MudTd DataLabel="Description">@context.Description</MudTd>
+        <MudTd>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => Subscribe(context.Id))">Subscribe</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => UnSubscribe(context.Id))">UnSubscribe</MudButton>
+            <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="@((e) => AddComment(context.Id))">AddComment</MudButton>
+
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+
+@code {
+    private bool dense = false;
+    private bool hover = true;
+    private bool striped = true;
+    private bool bordered = false;
+
+    private string searchString = "";
+
+    private IEnumerable<ThoughtListItem> ThoughtListItems = new List<ThoughtListItem>();
+
+    private async Task ReloadData()
+    {
+        ThoughtListItems = await thoughtService.GetRespondentThoughts(0, 10000);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            await ReloadData();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add(ex.Message, Severity.Error);
+        }
+    }
+
+    private bool FilterFuncSimple(ThoughtListItem ThoughtListItem) => FilterFunc(ThoughtListItem, searchString);
+
+    private bool FilterFunc(ThoughtListItem ThoughtListItem, string searchString)
+    {
+        return
+            string.IsNullOrWhiteSpace(searchString)
+            ||
+            ThoughtListItem.Title.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            ThoughtListItem.Author.Contains(searchString, StringComparison.OrdinalIgnoreCase)
+            ||
+            ThoughtListItem.Description.Contains(searchString)
+        ;
+    }
+
+    private async Task Subscribe(int thoughtId)
+    {
+        var parameters = new DialogParameters { };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<SubscribeDialog>("Enter your email", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var res = await thoughtService.Subscribe(thoughtId, ((SubscribeDialog)dialog.Dialog).model);
+            await ReloadData();
+            if (res)
+            Snackbar.Add("You have subscribed successfully");
+            else
+            Snackbar.Add("Something is wrong");
+
+        }
+        
+
+    }
+
+    private async Task UnSubscribe(int thoughtId)
+    {
+        var parameters = new DialogParameters { };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<SubscribeDialog>("Enter your email", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var res = await thoughtService.UnSubscribe(thoughtId, ((SubscribeDialog)dialog.Dialog).model);
+            await ReloadData();
+            if (res)
+            Snackbar.Add("You have unsubscribed successfully");         
+            else 
+            Snackbar.Add("Something is wrong");
+
+        }
+
+
+    }
+
+    private async Task AddComment(int thoughtId)
+    {
+        var parameters = new DialogParameters { };
+        var options = new DialogOptions { CloseButton = true, MaxWidth = MaxWidth.Large, FullWidth = true };
+
+        var dialog = DialogService.Show<AddCommentDialog>("Enter your comment", parameters, options);
+        var result = await dialog.Result;
+
+        if (!result.Cancelled)
+        {
+            var res = await thoughtService.AddComment(thoughtId, ((AddCommentDialog)dialog.Dialog).model);
+            await ReloadData();
+            if (res)
+                Snackbar.Add("Comment added successfully");
+            else
+                Snackbar.Add("Something is wrong");
+
+        }
+
+
+    }
+}

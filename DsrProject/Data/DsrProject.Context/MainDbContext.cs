@@ -13,7 +13,6 @@ namespace DsrProject.Context
         public DbSet<AuthorDetail> AuthorDetails { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        public DbSet<ThoughtCategory> ThoughtCategories { get; set; }
         public DbSet<ThoughtUser> ThoughtUsers { get; set; }
         public MainDbContext(DbContextOptions<MainDbContext> options) :base(options) { }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,7 +30,6 @@ namespace DsrProject.Context
             modelBuilder.ApplyConfiguration(new AuthorConfiguration());
             modelBuilder.ApplyConfiguration(new AuthorDetailConfiguration());
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
-            modelBuilder.ApplyConfiguration(new ThoughtCategoryConfiguration());
             modelBuilder.ApplyConfiguration(new ThoughtUserConfiguration());
             modelBuilder.ApplyConfiguration(new ThoughtConfiguration());
             modelBuilder.ApplyConfiguration(new CommentConfiguration());

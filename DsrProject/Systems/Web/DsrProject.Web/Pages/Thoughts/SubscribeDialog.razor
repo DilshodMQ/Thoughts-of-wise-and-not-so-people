@@ -1,0 +1,49 @@
+﻿@inherits MudComponentBase
+
+@inject IThoughtService thoughtService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Email" @bind-Value="model.respondentEmail"
+                                  For="@(() => model.respondentEmail)"
+                                  Required="true"
+                                  RequiredError="Email is required!">
+                    </MudTextField>
+                </MudItem>
+                 </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+
+    [Parameter]
+    public SubscribeModel model { get; set; } = new(){};
+
+    protected override async Task OnInitializedAsync()
+    {
+
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}

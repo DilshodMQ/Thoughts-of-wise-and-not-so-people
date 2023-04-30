@@ -114,6 +114,14 @@
             <response code="403">Forbidden</response>
             <response code="404">Not Found</response>
         </member>
+        <member name="M:DsrProject.Api.Controllers.Respondents.RespondentsController.GetRespondentThoughts(System.Int32,System.Int32)">
+            <summary>
+            Get Thoughts
+            </summary>
+            <param name="offset">Offset to the first element</param>
+            <param name="limit">Count elements on the page</param>
+            <response code="200">List of ThoughtResponses</response>
+        </member>
         <member name="M:DsrProject.Api.Controllers.Respondents.RespondentsController.AddComment(DsrProject.Api.Controllers.Respondents.Models.AddCommentRequest)">
             <summary>
             Add comment
@@ -127,6 +135,20 @@
         <member name="M:DsrProject.Api.Controllers.Respondents.RespondentsController.UnSubscribe(DsrProject.Api.Controllers.Respondents.Models.SubscribeThoughtRequest)">
             <summary>
             UnSubscribe from Thought
+            </summary>
+        </member>
+        <member name="T:DsrProject.API.Controllers.AccountsController">
+            <summary>
+            Thoughts controller
+            </summary>
+            <response code="400">Bad Request</response>
+            <response code="401">Unauthorized</response>
+            <response code="403">Forbidden</response>
+            <response code="404">Not Found</response>
+        </member>
+        <member name="M:DsrProject.API.Controllers.AccountsController.Registr(DsrProject.API.Controllers.Models.RegisterUserAccountRequest)">
+            <summary>
+            Add User
             </summary>
         </member>
         <member name="P:DsrProject.API.Controllers.Models.CategoryResponse.Id">

@@ -1,13 +1,31 @@
 ﻿using AutoMapper;
+using Azure;
 using DsrProject.Api.Controllers.Accounts.Models;
 using DsrProject.API.Controllers.Models;
+using DsrProject.Common.Exceptions;
+using DsrProject.Common.Responses;
+using DsrProject.Context.Entities;
+using DsrProject.Services.Actions;
+using DsrProject.Services.EmailSender;
+using DsrProject.Services.Settings;
 using DsrProject.Services.UserAccount;
 using DsrProject.Services.UserAccount.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 
 namespace DsrProject.API.Controllers
 {
+    /// <summary>
+    /// Thoughts controller
+    /// </summary>
+    /// <response code="400">Bad Request</response>
+    /// <response code="401">Unauthorized</response>
+    /// <response code="403">Forbidden</response>
+    /// <response code="404">Not Found</response>
+    [ProducesResponseType(typeof(ErrorResponse), 400)]
+    [Produces("application/json")]
     [Route("api/v{version:apiVersion}/accounts")]
     [ApiController]
     [ApiVersion("1.0")]
@@ -16,16 +34,30 @@ namespace DsrProject.API.Controllers
         private readonly IMapper mapper;
         private readonly ILogger<AccountsController> logger;
         private readonly IUserAccountService userAccountService;
-
-        public AccountsController(IMapper mapper, ILogger<AccountsController> logger, IUserAccountService userAccountService)
+        private readonly UserManager<User> userManager;
+        private readonly IAction action;
+        private readonly MailSettings mailSettings;
+        public AccountsController(IMapper mapper,
+            ILogger<AccountsController> logger,
+            IUserAccountService userAccountService,
+            IAction action,
+            IOptions<MailSettings> mailSettings,
+            UserManager<User> userManager)
         {
             this.mapper = mapper;
             this.logger = logger;
             this.userAccountService = userAccountService;
+            this.userManager = userManager;
+            this.action = action;
+            this.mailSettings = mailSettings.Value;
         }
 
-        [HttpPost("")]
-        public async Task<UserAccountResponse> Register([FromQuery] RegisterUserAccountRequest request)
+        /// <summary>
+        /// Add User
+        /// </summary>
+
+        [HttpPost("Registr")]
+        public async Task<UserAccountResponse> Registr([FromQuery] RegisterUserAccountRequest request)
         {
             var user = await userAccountService.Create(mapper.Map<RegisterUserAccountModel>(request));
 
@@ -35,13 +67,65 @@ namespace DsrProject.API.Controllers
         }
 
         [HttpPost("ChangePassword")]
-        public async Task<ChangePasswordResponse> ChangePassword([FromQuery]ChangePasswordRequest request)
+        [Authorize]
+        public async Task<ChangePasswordResponse> ChangePassword([FromQuery] ChangePasswordRequest request)
         {
+            var user = await userManager.GetUserAsync(User);
             var model = mapper.Map<ChangePasswordModel>(request);
-            var changedPass = await userAccountService.ChangePassword(model);
+            var changedPass = await userAccountService.ChangePassword(model, user);
 
-            var response=mapper.Map<ChangePasswordResponse>(changedPass);
+            var response = mapper.Map<ChangePasswordResponse>(changedPass);
             return response;
+        }
+
+        [HttpPost("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            var user = await userManager.FindByEmailAsync(email);
+            if (user == null)
+            {
+                throw new ProcessException($"User with email {email} not found");
+            }
+
+            var token = userManager.GeneratePasswordResetTokenAsync(user);
+            var url = Url.Action(nameof(ResetPassword), "Accounts", new { token=token.Result.ToString(), email = user.Email }, Request.Scheme);
+
+            await action.SendEmail(new EmailModel
+            {
+                SenderEmail = mailSettings.Mail,
+                SenderPassword = mailSettings.Password,
+                Host = mailSettings.Host,
+                Port = mailSettings.Port,
+                RespondentEmail = email,
+                Subject = "Thoughts notification",
+                Message = $"Forgot password link {url}"
+            });
+            return StatusCode(StatusCodes.Status200OK);
+        }
+
+        [HttpGet("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(string token, string email)
+        {
+            var model = new ResetPassword { Token = token, Email = email };
+            return Ok(new
+            {
+                model
+            });
+        }
+
+        [HttpPost("ResetPassword")]
+        public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
+        {
+            var user = await userManager.FindByEmailAsync(resetPassword.Email);
+            if (user == null)
+            {
+                throw new ProcessException($"User with email {resetPassword.Email} not found");
+            }
+
+            var resPassResult = await userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password);
+
+            
+            return StatusCode(StatusCodes.Status200OK);
         }
     }
 }

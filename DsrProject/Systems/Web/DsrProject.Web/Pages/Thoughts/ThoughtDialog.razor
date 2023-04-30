@@ -1,0 +1,105 @@
+@inherits MudComponentBase
+
+@inject IThoughtService thoughtService
+
+<MudDialog>
+    <DialogContent>
+        <MudForm Model="model" @ref="form" Validation="@(modelValidator.ValidateValue)">
+            <MudGrid>
+                <MudItem xs="12" sm="6">
+                    <MudTextField Label="Title" @bind-Value="model.Title"
+                                  For="@(() => model.Title)"
+                                  Required="true"
+                                  RequiredError="Title is required!"
+                                  >
+                    </MudTextField>
+                </MudItem>
+                <MudItem xs="12">
+                    <MudTextField Label="Description"
+                                  Lines="5"
+                                  For="@(() => model.Description)"
+                                  @bind-Value="model.Description"></MudTextField>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectAuthor" T="int" Label="Author" @bind-Value="model.AuthorId" For="@(() => model.AuthorId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var author in _authors)
+                        {
+                            <MudSelectItem T="int" Value="@author.Id">@author.Name</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+                <MudItem xs="12" sm="6">
+                    <MudSelect @ref="selectCategory" T="int" Label="Category" @bind-Value="model.CategoryId" For="@(() => model.CategoryId)">
+                        <MudSelectItem T="int" Value="0">&nbsp;</MudSelectItem>
+                        @foreach (var category in _categories)
+                        {
+                            <MudSelectItem T="int" Value="@category.Id">@category.Title</MudSelectItem>
+                        }
+                    </MudSelect>
+                </MudItem>
+               
+            </MudGrid>
+        </MudForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; } = default!;
+
+    MudForm form = default!;
+    MudSelect<int> selectAuthor = default!;
+    MudSelect<int> selectCategory = default!;
+
+    ThoughtModelValidator modelValidator = new ThoughtModelValidator();
+
+    bool isNew = false;
+
+    [Parameter]
+    public int? ThoughtId { get; set; } = default;
+
+    [Parameter]
+    public ThoughtModel model { get; set; } = new() { AuthorId = 0 };
+
+    private List<AuthorModel> _authors { get; set; } = new List<AuthorModel>();
+
+    private List<CategoryModel> _categories { get; set; } = new List<CategoryModel>();
+    protected override async Task OnInitializedAsync()
+    {
+        var data = await thoughtService.GetAuthorList();
+        _authors.AddRange(data);
+
+        var categoryData = await thoughtService.GetCategoryList();
+        _categories.AddRange(categoryData);
+
+        isNew = ThoughtId == null;
+        if (!isNew)
+        {
+            var thought = await thoughtService.GetThought(ThoughtId ?? 0);
+
+            model.Id = thought.Id;
+            model.AuthorId = thought.AuthorId;
+            model.Title = thought.Title;
+            model.Description = thought.Description;
+        }
+
+        await selectAuthor.SelectOption(model.AuthorId);
+        form.ResetValidation();
+    }
+
+    async Task Submit()
+    {
+        await form.Validate();
+        if (form.IsValid)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+    }
+
+    void Cancel() => MudDialog.Cancel();
+}
