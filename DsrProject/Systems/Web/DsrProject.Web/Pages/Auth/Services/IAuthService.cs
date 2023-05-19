@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using DsrProject.Web.Pages.Auth;
+using DsrProject.Web.Pages.Auth.ForgotPwd;
+using System.Threading.Tasks;
 
 namespace DsrProject.Web
 {
@@ -7,5 +9,9 @@ namespace DsrProject.Web
         Task<bool> Registr(RegistrModel registrModel);
         Task<LoginResult> Login(LoginModel loginModel);
         Task Logout();
+
+        Task<bool> ForgotPassword(ForgotPasswordModel model);
+
+        Task<bool> ResetForgotPassword(ResetPasswordModel resetPassword);
     }
 }

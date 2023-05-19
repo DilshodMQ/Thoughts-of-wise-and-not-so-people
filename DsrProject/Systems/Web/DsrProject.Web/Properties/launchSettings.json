@@ -6,7 +6,7 @@
     }
   },
   "profiles": {
-    "http": {
+    "DsrProject.Web": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,

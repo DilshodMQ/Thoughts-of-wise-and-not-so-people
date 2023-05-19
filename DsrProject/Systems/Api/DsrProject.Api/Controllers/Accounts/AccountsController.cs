@@ -13,7 +13,9 @@ using DsrProject.Services.UserAccount.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Options;
+using System.Text;
 
 namespace DsrProject.API.Controllers
 {
@@ -57,7 +59,7 @@ namespace DsrProject.API.Controllers
         /// </summary>
 
         [HttpPost("Registr")]
-        public async Task<UserAccountResponse> Registr([FromQuery] RegisterUserAccountRequest request)
+        public async Task<UserAccountResponse> Registr([FromBody] RegisterUserAccountRequest request)
         {
             var user = await userAccountService.Create(mapper.Map<RegisterUserAccountModel>(request));
 
@@ -79,16 +81,20 @@ namespace DsrProject.API.Controllers
         }
 
         [HttpPost("ForgotPassword")]
-        public async Task<IActionResult> ForgotPassword(string email)
+        public async Task<IActionResult> ForgotPassword(ForgotPassword request)
         {
-            var user = await userManager.FindByEmailAsync(email);
+            var user = await userManager.FindByEmailAsync(request.Email);
             if (user == null)
             {
-                throw new ProcessException($"User with email {email} not found");
+                throw new ProcessException($"User with email {request.Email} not found");
             }
 
-            var token = userManager.GeneratePasswordResetTokenAsync(user);
-            var url = Url.Action(nameof(ResetPassword), "Accounts", new { token=token.Result.ToString(), email = user.Email }, Request.Scheme);
+            var resetPasswordToken = await  userManager.GeneratePasswordResetTokenAsync(user);
+            var encodeResetPasswordToken = Encoding.UTF8.GetBytes(resetPasswordToken);
+            var validResetPasswordToken = WebEncoders.Base64UrlEncode(encodeResetPasswordToken);
+
+            var url = $"http://host.docker.internal:10002/ResetPassword?email={user.Email}&token={validResetPasswordToken}";
+           // var url = Url.Action(nameof(ResetPassword), "Accounts", new { token=token.Result.ToString(), email = user.Email }, Request.Scheme);
 
             await action.SendEmail(new EmailModel
             {
@@ -96,10 +102,10 @@ namespace DsrProject.API.Controllers
                 SenderPassword = mailSettings.Password,
                 Host = mailSettings.Host,
                 Port = mailSettings.Port,
-                RespondentEmail = email,
+                RespondentEmail = request.Email,
                 Subject = "Thoughts notification",
-                Message = $"Forgot password link {url}"
-            });
+                Message = $"Forgot password link <a href='{url}'> Click here </a>"
+            });;
             return StatusCode(StatusCodes.Status200OK);
         }
 
@@ -123,9 +129,15 @@ namespace DsrProject.API.Controllers
             }
 
             var resPassResult = await userManager.ResetPasswordAsync(user, resetPassword.Token, resetPassword.Password);
-
+            if(resPassResult.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status200OK);
+            }
+            else
+            {
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
             
-            return StatusCode(StatusCodes.Status200OK);
         }
     }
 }

@@ -5,6 +5,7 @@ using DsrProject.Services.Settings;
 using DsrProject.Settings;
 using DsrProject.Context;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var mainSettings = Settings.Load<MainSettings>("Main");
