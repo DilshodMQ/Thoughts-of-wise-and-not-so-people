@@ -8,7 +8,7 @@ namespace DsrProject.Api.Configuration
         public static IServiceCollection AddAppHealthChecks(this IServiceCollection services)
         {
             services.AddHealthChecks()
-                .AddCheck<SelfHealthCheck>("DSRNetSchool.API");
+                .AddCheck<SelfHealthCheck>("DsrProject.API");
 
             return services;
         }

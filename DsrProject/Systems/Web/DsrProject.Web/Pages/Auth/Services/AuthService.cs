@@ -1,4 +1,6 @@
 ﻿using Blazored.LocalStorage;
+using DsrProject.Web.Pages.Auth;
+using DsrProject.Web.Pages.Auth.ForgotPwd;
 using Microsoft.AspNetCore.Components.Authorization;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -61,20 +63,19 @@ namespace DsrProject.Web
             return loginResult;
         }
 
-        public async  Task<bool> Registr(RegistrModel model)
+        public async  Task<bool> Registr(RegistrModel registrModel)
         {
-            string url = $"{Settings.ApiRoot}/api/v1/accounts/Registr";
+            string apiUrl = $"{Settings.ApiRoot}/api/v1/accounts/Registr";
 
-            var body = JsonSerializer.Serialize(model);
-            var request = new StringContent(body, Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync(url, request);
+                var body = JsonSerializer.Serialize(registrModel);
+                var request = new StringContent(body, Encoding.UTF8, "application/json");
+                var apiResponse = await _httpClient.PostAsync(apiUrl, request);
 
-            var content = await response.Content.ReadAsStringAsync();
-
-            if (!response.IsSuccessStatusCode)
-            {
-                throw new Exception(content);
-            }
+                var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                if(!apiResponse.IsSuccessStatusCode)
+                {
+                    return false;
+                }
             return true;
          
         }
@@ -88,5 +89,41 @@ namespace DsrProject.Web
 
             _httpClient.DefaultRequestHeaders.Authorization = null;
         }
+
+        public async Task<bool> ForgotPassword(ForgotPasswordModel model)
+        {
+
+                string apiUrl = $"{Settings.ApiRoot}/api/v1/accounts/ForgotPassword";
+
+                var body = JsonSerializer.Serialize(model);
+                var request = new StringContent(body, Encoding.UTF8, "application/json");
+                var apiResponse = await _httpClient.PostAsync(apiUrl, request);
+
+                var apiContent = await apiResponse.Content.ReadAsStringAsync();
+                if (!apiResponse.IsSuccessStatusCode)
+                {
+                    throw new Exception(apiContent);
+                }
+                else
+                return true;
+        }
+
+        public async Task<bool> ResetForgotPassword(ResetPasswordModel resetPassword)
+        {
+            string apiUrl = $"{Settings.ApiRoot}/api/v1/accounts/ResetPassword";
+
+            var body = JsonSerializer.Serialize(resetPassword);
+            var request = new StringContent(body, Encoding.UTF8, "application/json");
+            var apiResponse = await _httpClient.PostAsync(apiUrl, request);
+
+            var apiContent = await apiResponse.Content.ReadAsStringAsync();
+            if (!apiResponse.IsSuccessStatusCode)
+            {
+                return false;
+            }
+            else
+            return true;
+        }
     }
+
 }
