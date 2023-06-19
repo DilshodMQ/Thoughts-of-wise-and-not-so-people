@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Azure;
 using DsrProject.Api.Controllers.Accounts.Models;
 using DsrProject.API.Controllers.Models;
 using DsrProject.Common.Exceptions;
